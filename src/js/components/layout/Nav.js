@@ -18,8 +18,12 @@ export default class Nav extends React.Component {
     const { location } = this.props;
     const { collapsed } = this.state;
     const featuredClass = location.pathname === "/" ? "active" : "";
-    const archivesClass = location.pathname.match(/^\/favorites/) ? "active" : "";
-    const settingsClass = location.pathname.match(/^\/settings/) ? "active" : "";
+    const newsFeedClass = location.pathname.match(/^\/newsfeed/) ? "active" : "";
+    const peopleClass = location.pathname.match(/^\/people/) ? "active" : "";
+    const eventsClass = location.pathname.match(/^\/events/) ? "active" : "";
+    const profileClass = location.pathname.match(/^\/profile/) ? "active" : "";
+    const calendarClass = location.pathname.match(/^\/calendar/) ? "active" : "";
+    const infoClass = location.pathname.match(/^\/info/) ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
 
     return (
@@ -36,13 +40,25 @@ export default class Nav extends React.Component {
           <div class={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li class={featuredClass}>
-                <IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Todos</IndexLink>
+                <IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Home</IndexLink>
               </li>
-              <li class={archivesClass}>
-                <Link to="favorites" onClick={this.toggleCollapse.bind(this)}>Favorites</Link>
+              <li class={newsFeedClass}>
+                <Link to="newsfeed" onClick={this.toggleCollapse.bind(this)}>News Feed</Link>
               </li>
-              <li class={settingsClass}>
-                <Link to="settings" onClick={this.toggleCollapse.bind(this)}>Settings</Link>
+              <li class={peopleClass}>
+                <Link to="people" onClick={this.toggleCollapse.bind(this)}>People</Link>
+              </li>
+              <li class={eventsClass}>
+                <Link to="events" onClick={this.toggleCollapse.bind(this)}>Events</Link>
+              </li>
+              <li class={profileClass}>
+                <Link to="profile" onClick={this.toggleCollapse.bind(this)}>My Profile</Link>
+              </li>
+              <li class={calendarClass}>
+                <Link to="calendar" onClick={this.toggleCollapse.bind(this)}>My Calendar</Link>
+              </li>
+              <li class={infoClass}>
+                <Link to="info" onClick={this.toggleCollapse.bind(this)}>Conference Info</Link>
               </li>
             </ul>
           </div>
