@@ -1,26 +1,26 @@
 import dispatcher from "../dispatcher";
 
-export function createTodo(text) {
+export function createHome(text) {
   dispatcher.dispatch({
-    type: "CREATE_TODO",
+    type: "CREATE_HOME",
     text,
   });
 }
 
-export function deleteTodo(id) {
+export function deleteHome(id) {
   dispatcher.dispatch({
-    type: "DELETE_TODO",
+    type: "DELETE_HOME",
     id,
   });
 }
 
-export function reloadTodos() {
+export function reloadHome() {
   // axios("http://someurl.com/somedataendpoint").then((data) => {
   //   console.log("got the data!", data);
   // })
-  dispatcher.dispatch({type: "FETCH_TODOS"});
+  dispatcher.dispatch({type: "FETCH_HOME"});
   setTimeout(() => {
-    dispatcher.dispatch({type: "RECEIVE_TODOS", todos: [
+    dispatcher.dispatch({type: "RECEIVE_HOME", home: [
       {
         id: 8484848484,
         text: "Go Shopping Again",

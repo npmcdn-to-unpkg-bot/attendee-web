@@ -2,19 +2,27 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, IndexRoute, hashHistory } from "react-router";
 
-import Favorites from "./pages/Favorites";
-import Todos from "./pages/Todos";
 import Layout from "./pages/Layout";
-import Settings from "./pages/Settings";
+import Home from "./pages/Home";
+import NewsFeed from "./pages/NewsFeed";
+import People from "./pages/People";
+import Events from "./pages/Events";
+import Profile from "./pages/Profile";
+import Calendar from "./pages/Calendar";
+import Info from "./pages/Info";
 
 const app = document.getElementById('app');
 
 ReactDOM.render(
   <Router history={hashHistory}>
     <Route path="/" component={Layout}>
-      <IndexRoute component={Todos}></IndexRoute>
-      <Route path="favorites" component={Favorites}></Route>
-      <Route path="settings" component={Settings}></Route>
+      <IndexRoute component={Home}></IndexRoute>
+      <Route path="newsfeed" component={NewsFeed}></Route>
+      <Route path="people" component={People}></Route>
+      <Route path="events" component={Events}></Route>
+      <Route path="profile" component={Profile}></Route>
+      <Route path="calendar" component={Calendar}></Route>
+      <Route path="info" component={Info}></Route>
     </Route>
   </Router>,
 app);
