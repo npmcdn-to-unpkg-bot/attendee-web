@@ -1,5 +1,5 @@
 {
-  "name": "react-tutorials",
+  "name": "calligre",
   "version": "0.0.0",
   "description": "",
   "main": "webpack.config.js",
@@ -17,6 +17,7 @@
     "flux": "^2.1.1",
     "history": "^1.17.0",
     "moment": "^2.14.1",
+    "node-sass": "^3.8.0",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-router": "^1.0.3",
