@@ -8,24 +8,29 @@ export default class Events extends React.Component {
 	constructor() {
 		super();
 		this.getEvents = this.getEvents.bind(this);
-		this.state = {
-			events: EventStore.getAll()
-		}
+		this.state = { events: [] };
+		EventStore.getAll()
 	}
 
   componentWillMount() {
-    EventStore.on("change", this.getEvents);
+    EventStore.on("received", this.getEvents);
+    EventStore.on("error", this.showError);
   }
 
   componentWillUnmount() {
-    EventStore.removeListener("change", this.getEvents);
+    EventStore.removeListener("received", this.getEvents);
+    EventStore.removeListener("error", this.showError);
   }
 
 	getEvents() {
 		this.setState({
-			events: EvenStore.getAll()
+			events: EventStore.events
 		})
 	}
+
+  showError(){
+    console.log(EventStore.error)
+  }
 
   render() {
     const { events } = this.state;
