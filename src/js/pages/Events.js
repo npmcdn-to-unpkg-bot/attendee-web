@@ -2,13 +2,17 @@ import React from "react";
 
 import Event from "../components/Event";
 import EventStore from "../stores/EventStore";
+import style from '../../sass/events.scss';
+
+
+var randomColor = require('randomcolor');
 
 
 export default class Events extends React.Component {
 	constructor() {
 		super();
 		this.getEvents = this.getEvents.bind(this);
-		this.state = { events: [] };
+		this.state = { events: []};
 		EventStore.getAll()
 	}
 
@@ -23,8 +27,16 @@ export default class Events extends React.Component {
   }
 
 	getEvents() {
+    var streamMap = {};
+    EventStore.events.forEach((event) => {
+      streamMap[event.stream] = randomColor();
+    });
+
 		this.setState({
-			events: EventStore.events
+			events: EventStore.events.map((event) => {
+        event["streamColor"] = streamMap[event.stream];
+        return event;
+      })
 		})
 	}
 
@@ -42,7 +54,11 @@ export default class Events extends React.Component {
     return (
       <div>
         <h1>Events</h1>
-        <ul>{EventComponents}</ul>
+        <table id="events">
+          <tbody>
+            {EventComponents}
+          </tbody>
+        </table>
       </div>
     );
   }

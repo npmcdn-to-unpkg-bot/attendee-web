@@ -12,8 +12,6 @@ import Events from "./pages/Events";
 import Profile from "./pages/Profile";
 import Info from "./pages/Info";
 
-import style from '../sass/teststyle.scss';
-
 
 const app = document.getElementById('app');
 
