@@ -1,0 +1,17 @@
+table#events {
+	tr {
+		background-color: #F2F2A2;
+		border-style: solid;
+		border-width: 2px;
+		border-color: #A3A33B;
+	}
+	td {
+		padding: 10px;
+		.date {
+			text-align: right;
+		}
+		.stream {
+			width: 30px;
+		}
+	}
+}

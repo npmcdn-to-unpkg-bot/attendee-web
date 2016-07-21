@@ -11,8 +11,6 @@ import Profile from "./pages/Profile";
 import Calendar from "./pages/Calendar";
 import Info from "./pages/Info";
 
-import style from '../sass/teststyle.scss';
-
 
 const app = document.getElementById('app');
 

@@ -8,21 +8,25 @@ export default class Event extends React.Component {
   }
 
   render() {
-    const { id, name, descriptionm, stream, isSubscribed, location, time } = this.props;
+    const { id, name, descriptionm, stream, streamColor, isSubscribed, location, time } = this.props;
     const { start, end } = time;
 
+    var streamStyle = {
+      backgroundColor: streamColor
+    };
+
     return (
-      <div id={"event-" + id} class="event-item">
-        <span class="stream"></span>
-        <span>
+      <tr id={"event-" + id} class="event-item">
+        <td class="stream" style={streamStyle}></td>
+        <td class="dates">
           <div class="date">{moment.unix(start).format("h:mm a")}</div>
           <div class="date">{moment.unix(end).format("h:mm a")}</div>
-        </span>
-        <span>
+        </td>
+        <td class="info">
           <div class="name">{name}</div>
           <div class="location">{location}</div>
-        </span>
-      </div>
+        </td>
+      </tr>
     );
   }
 }
