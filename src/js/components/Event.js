@@ -1,10 +1,16 @@
 import React from "react";
+import { browserHistory } from "history";
+
 
 var moment = require('moment');
 
 export default class Event extends React.Component {
   constructor(props) {
     super();
+  }
+
+  navigate() {
+    console.log(browserHistory);
   }
 
   render() {
@@ -16,7 +22,7 @@ export default class Event extends React.Component {
     };
 
     return (
-      <tr id={"event-" + id} class="event-item">
+      <tr id={"event-" + id} class="event-item" onClick={this.navigate.bind(this)}>
         <td class="stream" style={streamStyle}></td>
         <td class="dates">
           <div class="date">{moment.unix(start).format("h:mm a")}</div>
