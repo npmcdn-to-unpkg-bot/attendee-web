@@ -25,7 +25,7 @@ ReactDOM.render(
       <Route path="events" component={Events}></Route>
       <Route path="profile" component={Profile}></Route>
       <Route path="calendar" component={Calendar}></Route>
-      <Route path="info" component={Info}></Route>
+      <Route path="info" apiBaseURL="https://sehackday.calligre.com/api" component={Info}></Route>
     </Route>
   </Router>,
 app);
