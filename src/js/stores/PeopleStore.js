@@ -26,17 +26,42 @@ class PeopleStore extends EventEmitter {
     return this.people;
   }
 
+  get(id){
+    $.ajax({
+      url: " https://sehackday.calligre.com/api/user",
+      dataType: "json",
+      cache: false,
+      success: function(response){
+        dispatcher.dispatch({type: "PERSON_GET", event: response});
+      },
+      failure: function(error){
+        dispatcher.dispatch({type: "ERROR", error: error});
+      }
+    });
+    return this.people;
+  }
+
   handleActions(action) {
     switch(action.type) {
-      case "people_GET": {
+      case "PEOPLE_GET": {
         this.people = action.people;
         this.emit("received");
         break;
       }
-      case "people_ERROR":
+      case "PERSON_GET": {
+        this.people.forEach((person) => {
+          if(person.id == data.id) {
+            $.extend(person, data);
+          }
+        });
+        this.emit("received");
+        break;
+      }
+      case "PEOPLE_ERROR": {
         this.error = action.error;
         this.emit("error");
         break;
+      }
     }
   }
 }
