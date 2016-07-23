@@ -5,35 +5,37 @@ import PeopleStore from "../stores/PeopleStore";
 export default class People extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: PeopleStore.getAll(),
-    };
+    this.getPeople = this.getPeople.bind(this);
+    this.state = { people: [] };
+    PeopleStore.getAll()
   }
 
   componentWillMount() {
-    PeopleStore.on("change", this.getPeople);
+    PeopleStore.on("received", this.getPeople);
+    PeopleStore.on("error", this.showError);
   }
 
   componentWillUnmount() {
-    PeopleStore.removeListener("change", this.getPeople);
+    PeopleStore.removeListener("received", this.getPeople);
+    PeopleStore.removeListener("error", this.showError);
   }
 
   getPeople() {
     this.setState({
-      data: PeopleStore.getAll(),
-    });
+      people: PeopleStore.people
+    })
   }
 
-  reloadPeople() {
-    HomeActions.reloadHome();
+  showError(){
+    console.log(PeopleStore.error)
   }
 
   render() {
-    const { home } = this.state;
+    const { people } = this.state;
     return (
       <div>
         <h1>People</h1>
-        <PeopleList data={this.state.data} />
+        <PeopleList data={people} />
       </div>
     );
   }
