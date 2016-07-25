@@ -21,7 +21,11 @@ export default class Profile extends React.Component {
   }
 
   getProfile() {
-    var id = this.props.params.id;
+    // TODO: set to the current user id instead of 1
+    var id = 1;
+    if (this.props.params.hasOwnProperty("id")) {
+      id = this.props.params.id;
+    }
     var profiles = PeopleStore.people.filter((profile) => {
       return profile.id == id;
     })
