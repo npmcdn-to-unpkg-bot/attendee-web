@@ -3,10 +3,11 @@ import React from "react";
 import PeopleStore from "../stores/PeopleStore";
 
 export default class Profile extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = { profile: {name: "", id: 0} };
     this.getProfile = this.getProfile.bind(this);
-    PeopleStore.get(this.props.param.profileID);
+    PeopleStore.getAll();
   }
 
   componentWillMount() {
@@ -20,25 +21,24 @@ export default class Profile extends React.Component {
   }
 
   getProfile() {
-    var id = this.props.param.profileID;
-    var profile = PeopleStore.people.filter((profile) => {
+    var id = this.props.params.id;
+    var profiles = PeopleStore.people.filter((profile) => {
       return profile.id == id;
     })
     this.setState({
-      profile: profile
-    })
+      profile: profiles[0]
+    });
   }
 
   showError(){
-    console.log(PeopleStore.error)
+    console.log(PeopleStore.error);
   }
 
   render() {
-    const { id, name, description, email, organization, photo, points} = this.props;
-
+    const {id, name} = this.state.profile;
     return (
       <div>
-        <h1>Profile {name}</h1>
+        <h1>Profile: {name}</h1>
       </div>
     );
   }

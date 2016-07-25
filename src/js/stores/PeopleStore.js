@@ -17,25 +17,10 @@ class PeopleStore extends EventEmitter {
       dataType: "json",
       cache: false,
       success: function(response){
-        dispatcher.dispatch({type: "people_GET", people: response});
+        dispatcher.dispatch({type: "PEOPLE_GET", people: response});
       },
       failure: function(error){
-        dispatcher.dispatch({type: "people_ERROR", error: error});
-      }
-    });
-    return this.people;
-  }
-
-  get(id){
-    $.ajax({
-      url: " https://sehackday.calligre.com/api/user",
-      dataType: "json",
-      cache: false,
-      success: function(response){
-        dispatcher.dispatch({type: "PERSON_GET", event: response});
-      },
-      failure: function(error){
-        dispatcher.dispatch({type: "ERROR", error: error});
+        dispatcher.dispatch({type: "PEOPLE_ERROR", error: error});
       }
     });
     return this.people;
@@ -45,15 +30,6 @@ class PeopleStore extends EventEmitter {
     switch(action.type) {
       case "PEOPLE_GET": {
         this.people = action.people;
-        this.emit("received");
-        break;
-      }
-      case "PERSON_GET": {
-        this.people.forEach((person) => {
-          if(person.id == data.id) {
-            $.extend(person, data);
-          }
-        });
         this.emit("received");
         break;
       }

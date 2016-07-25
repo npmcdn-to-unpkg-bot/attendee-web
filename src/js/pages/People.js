@@ -1,5 +1,5 @@
 import React from "react";
-
+import {IndexLink} from "react-router";
 import PeopleStore from "../stores/PeopleStore";
 
 export default class People extends React.Component {
@@ -52,7 +52,7 @@ var PeopleList = React.createClass({
         photo = person.photo;
       }
       return (
-        <Person name={person.name} photo={photo} points={person.points} organization={person.organization} />
+        <Person name={person.name} photo={photo} points={person.points} organization={person.organization} profileID={person.id}/>
       );
     });
     return (
@@ -67,7 +67,9 @@ var Person = React.createClass({
   render: function() {
     return (
       <div className="person">
-        <img src={this.props.photo} />
+        <IndexLink to={{ pathname: 'people/' + this.props.profileID }}>
+          <img src={this.props.photo} />
+        </IndexLink>
         <p className="personName"> {this.props.name} </p>
         <p className="personPoints"> {this.props.points} </p>
         <p className="personOrg"> {this.props.organization} </p>
