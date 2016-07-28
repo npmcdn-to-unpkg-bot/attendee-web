@@ -1,0 +1,43 @@
+$font-stack: Source Sans Pro, sans-serif;
+$red: #F16A6F;
+$purple: #8E7E8E;
+$blue: #5F9EDF;
+$teal: #62D0DB;
+$grey: #D7D8DA;
+$black: #000;
+$white: #FFF;
+$primary: $red;
+$secondary: $purple;
+$tertiary: $blue;
+$highlight: $teal;
+
+body {
+  font: 100% $font-stack;
+  color: $black;
+}
+
+h1 {
+  color: $primary;
+}
+
+h2 {
+  color: $secondary;
+}
+
+h3 {
+  color: $tertiary;
+}
+
+p {
+  font-size: 12px;
+}
+
+.navbar {
+  background-color: $purple;
+  background-image: none !important;
+  border: none;
+
+  li {
+    font-size: 16px;
+  }
+}

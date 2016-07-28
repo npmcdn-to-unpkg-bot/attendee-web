@@ -51,8 +51,10 @@ var PeopleList = React.createClass({
       if (person.hasOwnProperty('photo')) {
         photo = person.photo;
       }
+      // TODO: Determine rank
+      var rank = 1;
       return (
-        <Person name={person.name} photo={photo} points={person.points} organization={person.organization} profileID={person.id}/>
+        <Person name={person.name} photo={photo} points={person.points} organization={person.organization} profileID={person.id} rank={rank}/>
       );
     });
     return (
@@ -68,11 +70,24 @@ var Person = React.createClass({
     return (
       <div className="person">
         <IndexLink to={{ pathname: 'people/' + this.props.profileID }}>
+          <div className="points-container">
+            <div className="top-half">
+              <p className="personPoints"> {this.props.points} </p>
+            </div>
+            <div className="bottom-half">
+              <p className="personRank"> Rank: {this.props.rank} </p>
+            </div>
+          </div>
           <img src={this.props.photo} />
+          <div className="info-container">
+            <div className="top-half">
+              <p className="personName"> {this.props.name} </p>
+            </div>
+            <div className="bottom-half">
+              <p className="personOrg"> {this.props.organization} </p>
+            </div>
+          </div>
         </IndexLink>
-        <p className="personName"> {this.props.name} </p>
-        <p className="personPoints"> {this.props.points} </p>
-        <p className="personOrg"> {this.props.organization} </p>
       </div>
     );
   }

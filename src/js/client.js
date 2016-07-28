@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, IndexRoute, hashHistory, IndexLink } from "react-router";
 
+require('!style!css!sass!../sass/main.scss');
+
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import NewsFeed from "./pages/NewsFeed";

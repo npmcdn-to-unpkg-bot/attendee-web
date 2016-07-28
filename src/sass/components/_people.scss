@@ -1,0 +1,55 @@
+.peopleList {
+  .person {
+    margin-bottom: 20px;
+
+    a {
+      color: black;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+
+    .points-container, img, .info-container {
+      display: inline-block;
+      vertical-align: -webkit-baseline-middle;
+    }
+
+    .points-container {
+      text-align: right;
+      width: 100px;
+
+      .personPoints, .personRank {
+        width: 100%;
+        margin: 0px;
+      }
+
+      .personPoints {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .personRank {
+        font-size: 16px;
+      }
+    }
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+      margin: 0px 20px;
+    }
+
+    .info-container {
+      p {
+        margin: 0px;
+      }
+
+      .personName {
+        font-size: 28px;
+        font-weight: bold;
+      }
+    }
+  }
+}
