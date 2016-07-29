@@ -2,14 +2,13 @@ import React from "react";
 
 import EventStore from "../stores/EventStore";
 
-// import style from '../../sass/event.scss';
-
+var moment = require('moment');
 
 export default class Events extends React.Component {
 	constructor(props) {
 		super(props);
-		this.getEvents = this.getEvent.bind(this);
-    this.state = { event: {}};
+		this.getEvent = this.getEvent.bind(this);
+    this.state = { event: undefined };
 
     EventStore.get(this.props.params.eventId);
 	}
@@ -25,10 +24,10 @@ export default class Events extends React.Component {
   }
 
 	getEvent() {
-    var id = this.props.param.eventID;
+    var id = this.props.params.eventId;
     var event = EventStore.events.filter((event) => {
       return event.id == id;
-    })
+    })[0]
     this.setState({
       event: event
     })
@@ -39,12 +38,13 @@ export default class Events extends React.Component {
   }
 
   render() {
-    const { event } = this.state;
-    const { id, name, descriptionm, stream, streamColor, isSubscribed, location, time } = event;
-
-    if(typeof id == "undefined") {
+    if(typeof this.state.event == "undefined") {
       return (<div></div>);
     }
+
+    const { event } = this.state;
+    const { id, name, description, stream, streamColor, isSubscribed, location, time } = event;
+
 
     const { start, end } = time;
 
