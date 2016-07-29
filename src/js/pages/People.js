@@ -2,13 +2,15 @@ import React from "react";
 import {IndexLink} from "react-router";
 import PeopleStore from "../stores/PeopleStore";
 import SearchInput, {createFilter} from 'react-search-input';
+import Select from 'react-select';
 
 export default class People extends React.Component {
   constructor(props) {
     super(props);
     this.getPeople = this.getPeople.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
-    this.state = { people: [], searchTerm: '' };
+    this.filterUpdated = this.filterUpdated.bind(this);
+    this.state = { people: [], searchTerm: '', filterTerms: '' };
     PeopleStore.getAll()
   }
 
@@ -38,16 +40,40 @@ export default class People extends React.Component {
     })
   }
 
+  filterUpdated (terms) {
+    this.setState({
+      filterTerms: terms,
+    })
+  }
+
   render() {
     const { people } = this.state;
-    let KEYS = ['name', 'organization']
-    const filteredPeople = people.filter(createFilter(this.state.searchTerm, KEYS));
+    const self = this;
+
+    // Filter based on the multi-select organization field. Match all selected.
+    const filteredPeople = people.filter(function(person) {
+      return self.state.filterTerms.length == 0 ||
+             self.state.filterTerms.indexOf(person.organization) >= 0;
+    });
+
+    // Filter based on search input. Match only on all search terms separated by spaces
+    let KEYS = ['name', 'organization'];
+    const selectedPeople = filteredPeople.filter(createFilter(this.state.searchTerm, KEYS));
+
+    // Create a list of organizations for the multiselect
+    const organizations = people.map(function(person) {
+      return {
+        value: person.organization,
+        label: person.organization
+      };
+    });
 
     return (
       <div>
         <h1>People</h1>
-        <SearchInput className="search-input" onChange={this.searchUpdated} placeholder="Search for someone"/>
-        <PeopleList data={filteredPeople} />
+        <SearchInput className="Select-control search-input" onChange={this.searchUpdated} placeholder="Search for someone"/>
+        <Select multi simpleValue value={this.state.filterTerms} placeholder="Filter by organization:" options={organizations} onChange={this.filterUpdated} />
+        <PeopleList data={selectedPeople} />
       </div>
     );
   }
