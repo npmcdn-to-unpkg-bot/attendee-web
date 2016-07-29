@@ -13,14 +13,11 @@ import EventPage from "./pages/Event";
 import Profile from "./pages/Profile";
 import Info from "./pages/Info";
 
-import { createHistory } from 'history'
-const history = createBrowserHistory()
-
 
 const app = document.getElementById('app');
 
 ReactDOM.render(
-  <Router history={history}>
+  <Router history={hashHistory}>
     <Route path="/" component={Layout}>
       <IndexRoute apiBaseURL="https://dev.calligre.com/api" component={Home}></IndexRoute>
       <Route path="newsfeed" component={NewsFeed}></Route>
