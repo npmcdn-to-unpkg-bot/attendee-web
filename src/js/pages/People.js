@@ -1,12 +1,14 @@
 import React from "react";
 import {IndexLink} from "react-router";
 import PeopleStore from "../stores/PeopleStore";
+import SearchInput, {createFilter} from 'react-search-input';
 
 export default class People extends React.Component {
   constructor(props) {
     super(props);
     this.getPeople = this.getPeople.bind(this);
-    this.state = { people: [] };
+    this.searchUpdated = this.searchUpdated.bind(this);
+    this.state = { people: [], searchTerm: '' };
     PeopleStore.getAll()
   }
 
@@ -30,12 +32,22 @@ export default class People extends React.Component {
     console.log(PeopleStore.error)
   }
 
+  searchUpdated (term) {
+    this.setState({
+      searchTerm: term
+    })
+  }
+
   render() {
     const { people } = this.state;
+    let KEYS = ['name', 'organization']
+    const filteredPeople = people.filter(createFilter(this.state.searchTerm, KEYS));
+
     return (
       <div>
         <h1>People</h1>
-        <PeopleList data={people} />
+        <SearchInput className="search-input" onChange={this.searchUpdated} placeholder="Search for someone"/>
+        <PeopleList data={filteredPeople} />
       </div>
     );
   }
