@@ -63,7 +63,7 @@ class EventStore extends EventEmitter {
       }
       case "EVENT_GET": {
         this.events.forEach((event) => {
-          if(event.id == data.id) {
+          if(event.id == action.event.id) {
             $.extend(event, data);
           }
         });

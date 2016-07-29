@@ -23,6 +23,8 @@
     "react": "^0.14.8",
     "react-dom": "^0.14.6",
     "react-router": ">1.0.3",
+    "react-search-input": "^0.10.1",
+    "react-select": "^1.0.0-beta14",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.9",

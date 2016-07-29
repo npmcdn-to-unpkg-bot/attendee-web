@@ -4,12 +4,21 @@ import Event from "../components/Event";
 import EventStore from "../stores/EventStore";
 import style from '../../sass/events.scss';
 
+import SearchInput, {createFilter} from 'react-search-input';
+import Select from 'react-select';
+
+
+
 
 export default class Events extends React.Component {
 	constructor() {
 		super();
 		this.getEvents = this.getEvents.bind(this);
-		this.state = { events: []};
+    this.searchUpdated = this.searchUpdated.bind(this);
+    this.filterUpdated = this.filterUpdated.bind(this);
+
+
+		this.state = { events: [], searchTerm: '', filterTerms: '' };
 		EventStore.getAll()
 	}
 
@@ -29,6 +38,18 @@ export default class Events extends React.Component {
     });
 	}
 
+  searchUpdated (term) {
+    this.setState({
+      searchTerm: term
+    })
+  }
+
+  filterUpdated (terms) {
+    this.setState({
+      filterTerms: terms,
+    })
+  }
+
   showError(){
     console.log(EventStore.error)
   }
@@ -36,13 +57,28 @@ export default class Events extends React.Component {
   render() {
     const { events } = this.state;
 
-    const EventComponents = events.map((event) => {
+    let KEYS = ['name'];
+    const filteredEvents = events.filter(createFilter(this.state.searchTerm, KEYS));
+
+
+    const sortedEvents = filteredEvents.sort((a, b) => {
+      if(a.time.start == b.time.start){
+        if(a.time.end == b.time.end) {
+          return a.name < b.name ? -1 : 1;
+        }
+        return a.time.end < b.time.end ? -1 : 1;
+      }
+      return a.time.start < b.time.start ? -1 : 1;
+    });
+
+    const EventComponents = filteredEvents.map((event) => {
         return <Event key={event.id} {...event}/>;
     });
 
     return (
       <div>
         <h1>Events</h1>
+        <SearchInput className="Select-control search-input" onChange={this.searchUpdated} placeholder="Search for events"/>
         <div id="events">
           {EventComponents}
         </div>
