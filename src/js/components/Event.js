@@ -22,19 +22,19 @@ export default class Event extends React.Component {
     };
 
     return (
-      <tr id={"event-" + id} class="event-item" onClick={this.navigate.bind(this)}>
-        <IndexLink to={{ pathname: 'events/' + this.props.eventID }}>
-          <td class="stream" style={streamStyle}></td>
-          <td class="dates">
-            <div class="date">{moment.unix(start).format("h:mm a")}</div>
-            <div class="date">{moment.unix(end).format("h:mm a")}</div>
-          </td>
-          <td class="info">
-            <div class="name">{name}</div>
-            <div class="location">{location}</div>
-          </td>
-        </IndexLink>
-      </tr>                
+      <IndexLink to={{ pathname: 'events/' + this.props.eventID }}>
+        <div id={"event-" + id} class="event-item" onClick={this.navigate.bind(this)}>
+            <div class="stream" style={streamStyle}></div>
+            <div class="dates">
+              <div class="date">{moment.unix(start).format("h:mm a")}</div>
+              <div class="date">{moment.unix(end).format("h:mm a")}</div>
+            </div>
+            <div class="info">
+              <div class="name">{name}</div>
+              <div class="location">{location}</div>
+            </div>
+        </div>                
+      </IndexLink>
     );
   }
 }

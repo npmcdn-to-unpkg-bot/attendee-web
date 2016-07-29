@@ -43,11 +43,9 @@ export default class Events extends React.Component {
     return (
       <div>
         <h1>Events</h1>
-        <table id="events">
-          <tbody>
-            {EventComponents}
-          </tbody>
-        </table>
+        <div id="events">
+          {EventComponents}
+        </div>
       </div>
     );
   }
