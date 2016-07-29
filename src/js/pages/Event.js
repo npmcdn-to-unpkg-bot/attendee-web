@@ -6,10 +6,12 @@ import EventStore from "../stores/EventStore";
 
 
 export default class Events extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.getEvents = this.getEvent.bind(this);
-    EventStore.get(this.props.param.eventID);
+    this.state = { event: {}};
+
+    EventStore.get(this.props.params.eventId);
 	}
 
   componentWillMount() {
@@ -37,7 +39,13 @@ export default class Events extends React.Component {
   }
 
   render() {
-    const { id, name, descriptionm, stream, streamColor, isSubscribed, location, time } = this.props;
+    const { event } = this.state;
+    const { id, name, descriptionm, stream, streamColor, isSubscribed, location, time } = event;
+
+    if(typeof id == "undefined") {
+      return (<div></div>);
+    }
+
     const { start, end } = time;
 
     var streamStyle = {

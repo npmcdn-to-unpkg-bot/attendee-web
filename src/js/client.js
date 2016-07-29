@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router, Route, IndexRoute, browserHistory } from "react-router";
+import { Router, Route, IndexRoute, hashHistory } from "react-router";
 
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
@@ -12,14 +12,11 @@ import Profile from "./pages/Profile";
 import Calendar from "./pages/Calendar";
 import Info from "./pages/Info";
 
-import { createHistory } from 'history'
-const history = createBrowserHistory()
-
 
 const app = document.getElementById('app');
 
 ReactDOM.render(
-  <Router history={history}>
+  <Router history={hashHistory}>
     <Route path="/" component={Layout}>
       <IndexRoute component={Home}></IndexRoute>
       <Route path="newsfeed" component={NewsFeed}></Route>
