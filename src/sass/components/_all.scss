@@ -44,7 +44,6 @@ p {
 
 .Select-control {
   font-size: 12px;
-  margin: 20px 0px;
 
   input {
     border: none;
@@ -59,5 +58,31 @@ p {
     &:focus{
       outline: none;
     }
+  }
+}
+
+.searchBar {
+  margin: 20px 0px;
+}
+
+.sortContainer {
+  display: table;
+
+  .directionButton {
+    display: block;
+    width: 50px;
+    background: none;
+    border: none;
+    font-size: 24px;
+
+    &:active, &:focus {
+      outline: none;
+    }
+  }
+
+  .sortComponent {
+    display: table-cell;
+    width: 100%;
+    margin: 0px !important;
   }
 }

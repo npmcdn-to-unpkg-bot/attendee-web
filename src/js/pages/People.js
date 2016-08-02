@@ -3,6 +3,7 @@ import {IndexLink} from "react-router";
 import PeopleStore from "../stores/PeopleStore";
 import SearchInput, {createFilter} from 'react-search-input';
 import Select from 'react-select';
+import SwapVert from 'react-icons/lib/md/swap-vert';
 
 export default class People extends React.Component {
   constructor(props) {
@@ -10,7 +11,29 @@ export default class People extends React.Component {
     this.getPeople = this.getPeople.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
     this.filterUpdated = this.filterUpdated.bind(this);
-    this.state = { people: [], searchTerm: '', filterTerms: '' };
+    this.sortKeyUpdated = this.sortKeyUpdated.bind(this);
+    this.sortDirectionUpdated = this.sortDirectionUpdated.bind(this);
+    this.state = {
+      people: [],
+      searchTerm: '',
+      filterTerms: '',
+      sortKey: 'first_name',
+      sortDirection: 1,
+      sortOptions: [
+        {
+          value: 'first_name',
+          label: 'First name'
+        },
+        {
+          value: 'last_name',
+          label: 'Last name'
+        },
+        {
+          value: 'points',
+          label: 'Points'
+        },
+      ],
+    };
     PeopleStore.getAll()
   }
 
@@ -45,10 +68,34 @@ export default class People extends React.Component {
       filterTerms: terms,
     })
   }
+  
+  sortKeyUpdated (key) {
+    this.setState({
+      sortKey: key,
+    })
+  }
+  
+  sortDirectionUpdated () {
+    this.setState({
+      sortDirection: -this.state.sortDirection,
+    })
+  }
 
   render() {
-    const { people } = this.state;
+    const { people, sortKey, sortDirection, searchTerm } = this.state;
     const self = this;
+
+    people.sort(function(a, b) {
+      if (typeof a[sortKey] == 'string') {
+        return (a[sortKey].localeCompare(b[sortKey])) * sortDirection;
+      }
+
+      if (sortKey == 'points') {
+        return (b[sortKey] - a[sortKey]) * sortDirection;
+      }
+      
+      return (a[sortKey] - b[sortKey]) * sortDirection;
+    });
 
     // Filter based on the multi-select organization field. Match all selected.
     const filteredPeople = people.filter(function(person) {
@@ -57,8 +104,8 @@ export default class People extends React.Component {
     });
 
     // Filter based on search input. Match only on all search terms separated by spaces
-    let KEYS = ['name', 'organization'];
-    const selectedPeople = filteredPeople.filter(createFilter(this.state.searchTerm, KEYS));
+    let KEYS = ['first_name', 'last_name', 'organization'];
+    const selectedPeople = filteredPeople.filter(createFilter(searchTerm, KEYS));
 
     // Create a list of organizations for the multiselect
     const organizations = people.map(function(person) {
@@ -68,11 +115,19 @@ export default class People extends React.Component {
       };
     });
 
+    const buttonIcon = React.createElement(SwapVert, null);
+
     return (
       <div>
         <h1>People</h1>
-        <SearchInput className="Select-control search-input" onChange={this.searchUpdated} placeholder="Search for someone"/>
-        <Select multi simpleValue value={this.state.filterTerms} placeholder="Filter by organization:" options={organizations} onChange={this.filterUpdated} />
+        <SearchInput className="searchBar Select-control search-input" onChange={this.searchUpdated} placeholder="Search for someone"/>
+        <Select multi simpleValue className="searchBar" value={this.state.filterTerms} placeholder="Filter by organization:" options={organizations} onChange={this.filterUpdated} />
+        <div className="sortContainer searchBar">
+          <button className="directionButton" onClick={this.sortDirectionUpdated}>
+            {buttonIcon}
+          </button>
+          <Select className="sortComponent" simpleValue clearable={false} value={this.state.sortKey} options={this.state.sortOptions} onChange={this.sortKeyUpdated} />
+        </div>
         <PeopleList data={selectedPeople} />
       </div>
     );
@@ -92,7 +147,7 @@ var PeopleList = React.createClass({
       // TODO: Determine rank
       var rank = 1;
       return (
-        <Person name={person.name} photo={photo} points={person.points} organization={person.organization} profileID={person.id} rank={rank}/>
+        <Person name={person.first_name + ' ' + person.last_name} photo={photo} points={person.points} organization={person.organization} profileID={person.id} rank={rank}/>
       );
     });
     return (
