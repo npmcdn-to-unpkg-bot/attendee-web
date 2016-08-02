@@ -5,7 +5,7 @@ import PeopleStore from "../stores/PeopleStore";
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { profile: {name: "", id: 0} };
+    this.state = { profile: {id: 0} };
     this.getProfile = this.getProfile.bind(this);
     PeopleStore.getAll();
   }
@@ -39,10 +39,26 @@ export default class Profile extends React.Component {
   }
 
   render() {
-    const {id, name} = this.state.profile;
+    if (this.state.profile.private) {
+      return;
+    }
+
+    const {id, first_name, last_name, organization, points, description} = this.state.profile;
+    var {photo} = this.state.profile;
+    
+    if (photo == undefined) {
+      photo = "https://u.o0bc.com/avatars/stock/_no-user-image.gif";
+    }
+
     return (
-      <div>
-        <h1>Profile: {name}</h1>
+      <div className="profile">
+        <img src={photo}/>
+        <h2>{first_name} {last_name}</h2>
+        <h3>{organization}</h3>
+        <h4>Points: {points}</h4>
+        <div className="socialMediaContainer">
+        </div>
+        <p className="description">{description}</p>
       </div>
     );
   }
