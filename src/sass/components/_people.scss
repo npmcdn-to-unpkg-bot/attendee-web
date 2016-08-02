@@ -56,6 +56,8 @@
 
 .profile {
   text-align: center;
+  max-width: 500px;
+  margin: 0px auto;
 
   .submitChanges {
     margin: 0px auto;
@@ -100,9 +102,49 @@
       display: none;
 
     }
+  }
 
-    &:hover > .label {
+  .editIcon {
+    display: none;
+  }
+  
+  .profileItem {
+    margin: 30px 0px;
+  }
+
+  .submitChanges {
+    display: none;
+  }
+
+  &.myProfile {
+    .cancel {
+      display: none !important;
+    }
+
+    .dropzone:hover > .label {
       display: inherit;
-    } 
+    }
+
+    .submitChanges {
+      display: inherit;
+    }
+
+    .editableContainer {
+      border-bottom: 1px solid black;
+
+      .editable {
+        outline: none;
+        width: 100%;
+      }
+
+      .editIcon {
+        font-size: 16px;
+        display: inherit;
+      }
+
+      .editable, .editIcon {
+        display: table-cell;
+      }
+    }
   }
 }

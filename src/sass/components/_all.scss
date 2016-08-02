@@ -1,6 +1,7 @@
 $font-stack: Source Sans Pro, sans-serif;
 $red: #F16A6F;
 $purple: #8E7E8E;
+$darkBlue: #022F5A;
 $blue: #5F9EDF;
 $teal: #62D0DB;
 $grey: #D7D8DA;
@@ -93,4 +94,18 @@ p {
 
 .hidden {
   display: none;
+}
+
+button {
+  font-size: 16px;
+  padding: 10px 15px;
+  background-color: $purple;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+
+  &:hover {
+    background-color: $darkBlue;
+    color: white;
+  }
 }
