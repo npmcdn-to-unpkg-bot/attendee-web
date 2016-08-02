@@ -1,12 +1,17 @@
 import React from "react";
 
 import PeopleStore from "../stores/PeopleStore";
+import Dropzone from 'react-dropzone';
+import Clear from 'react-icons/lib/md/clear';
 
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { profile: {id: 0} };
+    this.state = { profile: {id: 0}, preview: '', uploadInProgress: false };
     this.getProfile = this.getProfile.bind(this);
+    this.submitChanges = this.submitChanges.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+    this.cancelDrop = this.cancelDrop.bind(this);
     PeopleStore.getAll();
   }
 
@@ -29,13 +34,58 @@ export default class Profile extends React.Component {
     var profiles = PeopleStore.people.filter((profile) => {
       return profile.id == id;
     })
+
+    var photo = profiles[0].photo;
+    
+    if (photo == undefined) {
+      photo = "https://u.o0bc.com/avatars/stock/_no-user-image.gif";
+    }
+
     this.setState({
-      profile: profiles[0]
+      profile: profiles[0],
+      preview: photo,
     });
   }
 
   showError(){
     console.log(PeopleStore.error);
+  }
+
+  onDrop(files) {
+    this.setState({
+      preview: files[0].preview,
+      uploadInProgress: true
+    })
+  }
+  
+  cancelDrop(e) {
+    e.stopPropagation();
+    this.setState({
+      preview: this.state.profile.photo,
+      uploadInProgress: false
+    });
+  }
+
+  submitChanges() {
+    // TODO: verify this is our profile
+
+    // TODO: ajax call to update profile
+    var profile = this.state.profile;
+    var form = $('.profile');
+    profile['description'] = form.find('.description').text();
+    profile['organization'] = form.find('.organization').text();
+
+    // TODO: ajax call to set photo
+    /*var req = request.post('/upload');
+    files.forEach((file)=> {
+        req.attach(file.name, file);
+    });
+    req.end(callback);*/
+
+    // onSuccess:
+    this.setState({
+      profile: profile
+    });
   }
 
   render() {
@@ -44,21 +94,29 @@ export default class Profile extends React.Component {
     }
 
     const {id, first_name, last_name, organization, points, description} = this.state.profile;
-    var {photo} = this.state.profile;
+
+    // TODO: determine if this is my profile or not
+    const myProfile = id == 1;
+    const displayUpdate = myProfile ? "visible" : "hidden";
+    const displayCancel = myProfile && this.state.uploadInProgress ? "visible" : "hidden";
     
-    if (photo == undefined) {
-      photo = "https://u.o0bc.com/avatars/stock/_no-user-image.gif";
-    }
+    const buttonIcon = React.createElement(Clear, null);
 
     return (
       <div className="profile">
-        <img src={photo}/>
+        <Dropzone className='dropzone' onDrop={this.onDrop} multiple={false} disableClick={!myProfile}>
+          <img src={this.state.preview}/>
+          <button className={"cancel " + displayCancel}  onClick={this.cancelDrop}>{buttonIcon}</button>
+          <p className={"label " + displayUpdate}>Upload new photo</p>
+        </Dropzone>
         <h2>{first_name} {last_name}</h2>
-        <h3>{organization}</h3>
+        <h3 contentEditable={myProfile} className="organization">{organization}</h3>
         <h4>Points: {points}</h4>
         <div className="socialMediaContainer">
         </div>
-        <p className="description">{description}</p>
+        <p contentEditable={myProfile} className="description">{description}</p>
+
+        <button lassName={"submitChanges " + displayUpdate} onClick={this.submitChanges}>Save changes</button>
       </div>
     );
   }

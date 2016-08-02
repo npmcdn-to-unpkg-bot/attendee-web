@@ -86,3 +86,11 @@ p {
     margin: 0px !important;
   }
 }
+
+.visible {
+  display: inherit;
+}
+
+.hidden {
+  display: none;
+}
