@@ -22,7 +22,6 @@ export default class Nav extends React.Component {
     const peopleClass = location.pathname.match(/^\/people/) ? "active" : "";
     const eventsClass = location.pathname.match(/^\/events/) ? "active" : "";
     const profileClass = location.pathname.match(/^\/profile/) ? "active" : "";
-    const calendarClass = location.pathname.match(/^\/calendar/) ? "active" : "";
     const infoClass = location.pathname.match(/^\/info/) ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
 
@@ -53,9 +52,6 @@ export default class Nav extends React.Component {
               </li>
               <li class={profileClass}>
                 <Link to="profile" onClick={this.toggleCollapse.bind(this)}>My Profile</Link>
-              </li>
-              <li class={calendarClass}>
-                <Link to="calendar" onClick={this.toggleCollapse.bind(this)}>My Calendar</Link>
               </li>
               <li class={infoClass}>
                 <Link to="info" onClick={this.toggleCollapse.bind(this)}>Conference Info</Link>

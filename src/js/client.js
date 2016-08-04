@@ -10,7 +10,6 @@ import NewsFeed from "./pages/NewsFeed";
 import People from "./pages/People";
 import Events from "./pages/Events";
 import Profile from "./pages/Profile";
-import Calendar from "./pages/Calendar";
 import Info from "./pages/Info";
 
 import style from '../sass/teststyle.scss';
@@ -27,7 +26,6 @@ ReactDOM.render(
       <Route path='people/:id' component={Profile} />
       <Route path="events" component={Events}></Route>
       <Route path="profile" component={Profile}></Route>
-      <Route path="calendar" component={Calendar}></Route>
       <Route path="info" apiBaseURL="https://dev.calligre.com/api" component={Info}></Route>
     </Route>
   </Router>,
