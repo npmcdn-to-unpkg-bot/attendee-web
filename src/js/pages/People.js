@@ -1,4 +1,5 @@
 import React from "react";
+import $ from 'jquery';
 import {IndexLink} from "react-router";
 import PeopleStore from "../stores/PeopleStore";
 import SearchInput, {createFilter} from 'react-search-input';
@@ -113,7 +114,9 @@ export default class People extends React.Component {
         value: person.organization,
         label: person.organization
       };
-    });
+    }).filter(function(value, index, self) {
+      return self.indexOf(value) == index;
+    });;
 
     const buttonIcon = React.createElement(SwapVert, null);
 

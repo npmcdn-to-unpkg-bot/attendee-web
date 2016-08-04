@@ -1,4 +1,5 @@
 import React from "react";
+import $ from 'jquery';
 
 import PeopleStore from "../stores/PeopleStore";
 import Dropzone from 'react-dropzone';
@@ -77,7 +78,9 @@ export default class Profile extends React.Component {
       organization: form.find('.organization').text(),
     };
 
-    PeopleStore.updatePhoto(profile.id, btoa(this.state.newPhoto));
+    if (this.state.newPhoto != null) {
+      PeopleStore.updatePhoto(profile.id, this.state.newPhoto);
+    }
     PeopleStore.updatePerson(profile);
   }
 
