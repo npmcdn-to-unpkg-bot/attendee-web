@@ -1,6 +1,8 @@
 import React from "react";
 
 import EventStore from "../stores/EventStore";
+import { IndexLink } from "react-router";
+
 
 var moment = require('moment');
 
@@ -55,20 +57,22 @@ export default class Events extends React.Component {
     return (
         <div>
         <h1>Event {name}</h1>
-        <table id="events">
-          <tbody>
-          <tr id={"event-" + id} class="event-item">
-            <td class="stream" style={streamStyle}></td>
-            <td class="dates">
-              <div class="date">{moment.unix(start).format("h:mm a")}</div>
-              <div class="date">{moment.unix(end).format("h:mm a")}</div>
-            </td>
-            <td class="info">
-              <div class="name">{description}</div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+          <IndexLink to={{ pathname: 'events?stream=' + stream }}>
+            <div id={"event-" + id} class="event-item">
+                <div class="stream" style={streamStyle}></div>
+                <div class="dates">
+                  <div class="date">{moment.unix(start).format("h:mm a")}</div>
+                  <div class="date">{moment.unix(end).format("h:mm a")}</div>
+                </div>
+                <div class="info">
+                  <div class="name">{name}</div>
+                  <div class="location">{location}</div>
+                </div>
+                <div class="subscribed">
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                </div>
+            </div>                
+          </IndexLink>
       </div>
     );
   }
