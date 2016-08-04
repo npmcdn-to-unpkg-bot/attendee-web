@@ -3,8 +3,6 @@ import React from "react";
 var moment = require('moment');
 var $ = require('jquery');
 
-import style from '../../sass/teststyle.scss';
-
 export default class Info extends React.Component {
   constructor() {
     super();
