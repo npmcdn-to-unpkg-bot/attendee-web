@@ -1,13 +1,15 @@
 import React from "react";
 
+import SearchInput, {createFilter} from 'react-search-input';
+import { DateField, TransitionView, Calendar } from 'react-date-picker'
+import Select from 'react-select';
 import Event from "../components/Event";
 import EventStore from "../stores/EventStore";
 import style from '../../sass/events.scss';
 
-import SearchInput, {createFilter} from 'react-search-input';
-import Select from 'react-select';
+require('!style!css!sass!react-date-picker/index.css');
 
-
+var moment = require('moment');
 
 
 export default class Events extends React.Component {
@@ -15,8 +17,7 @@ export default class Events extends React.Component {
 		super(props);
 		this.getEvents = this.getEvents.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
-    this.filterUpdated = this.filterUpdated.bind(this);
-
+    this.timeUpdated = this.filterUpdated.bind(this, 'startDate');
 
 		this.state = { events: [], searchTerm: '', filterTerms: this.props.location.query};
 		EventStore.getAll()
@@ -44,10 +45,12 @@ export default class Events extends React.Component {
     })
   }
 
-  filterUpdated (terms) {
+  filterUpdated(key, dateString, data) {
+    var filter = this.state.filterTerms;
+    filter[key] = value;
     this.setState({
-      filterTerms: terms,
-    })
+      filterTerms: filter
+    });
   }
 
   showError(){
@@ -62,6 +65,7 @@ export default class Events extends React.Component {
     var filteredEvents = events.filter(createFilter(searchTerm, ['name']));
     filteredEvents = filteredEvents.filter((event) => {
       if(typeof filterTerms['stream'] != 'undefined' && event['stream'] != filterTerms['stream']) return false;
+      if(typeof filterTerms['startDate'] != 'undefined' && event['startDate'] > filterTerms['startDate']) return false;
 
       return true;
     });
@@ -81,10 +85,18 @@ export default class Events extends React.Component {
         return <Event key={event.id} {...event}/>;
     });
 
+    var format = "MM-DD HH:mm";
+    var date = moment().format(format);
+
     return (
       <div>
         <h1>Events</h1>
         <SearchInput className="Select-control search-input" onChange={this.searchUpdated} placeholder="Search for events"/>
+        <DateField forceValidDate defaultValue={date} dateFormat={format} onChange={this.timeUpdated} >
+          <TransitionView>
+            <Calendar style={{padding: 10}}/>
+          </TransitionView>
+        </DateField>
         <div id="events">
           {EventComponents}
         </div>

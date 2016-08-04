@@ -13,8 +13,9 @@ import EventPage from "./pages/Event";
 import Profile from "./pages/Profile";
 import Info from "./pages/Info";
 
-
 const app = document.getElementById('app');
+
+
 
 ReactDOM.render(
   <Router history={hashHistory}>
