@@ -11,7 +11,7 @@ export default class NewsFeedPost extends React.Component {
     this.state = {
       showPicture: false,
       liked: 0,
-      likeStyle: {color: 'black'},
+      likeStyle: {color: 'black', fontSize: "40px", marginLeft: "50px"},
     };
   }
 
@@ -42,13 +42,13 @@ export default class NewsFeedPost extends React.Component {
       NewsFeedStore.decrementLike();
       this.setState({
         liked: 0,
-        likeStyle: {color: 'black'},
+        likeStyle: {color: 'black', fontSize: "40px", marginLeft: "50px"},
       });
     } else {
       NewsFeedStore.incrementLike();
       this.setState({
         liked: 1,
-        likeStyle: {color: 'red'},
+        likeStyle: {color: 'red', fontSize: "40px", marginLeft: "50px"},
       })
     }
 
@@ -61,33 +61,61 @@ export default class NewsFeedPost extends React.Component {
     // TODO: This is a dirty hack job until the API has a solution
     let likeCount = like_count + this.state.liked;
 
+
+
+    var width100 = {
+      margin: "30px -10% 15px 20%",
+    }
+
+    var font30 = {
+      fontSize: "26px"
+    }
+
+    var font40 = {
+      fontSize: "32px"
+    }
+
+    var font24 = {
+      fontSize: "20px",
+    }
+
+    var fleft = {
+      float: "left"
+    }
+
+    var fcenter = {
+      float: "center"
+    }
+
+
     let renderPicture;
-    if (this.props.media_link == undefined) {
+    if (this.props.media_link === undefined || this.props.media_link === "") {
       renderPicture = (
-        <div>NO MEDIA LINK</div>
+        <span style={font24}>NO MEDIA LINK</span>
       );
     } else if (!this.state.showPicture) {
       renderPicture = (
-        <div class="picture-text" onClick={this.togglePictureDisplay}>Show Photo...</div>
+        <span class="picture-text" style={font30} onClick={this.togglePictureDisplay}>Show Photo...</span>
       );
     } else {
       renderPicture = (
-        <div class="picture" onClick={this.togglePictureDisplay}>
+        <span class="picture" onClick={this.togglePictureDisplay}>
           <img src={media_link}/>
-        </div>
+        </span>
       );
     }
 
+
+
+
     return (
-      <div class="newsfeed-post">
+      <div class="newsfeed-post" style={width100}>
         <div class="test-post">
-          <div class="username">{posterid}</div>
-          <span class="text">{text} </span>
-          <div>
-            <span class="likes" style={this.state.likeStyle} onClick={this.changeLike}>&hearts;</span>
-            <span>{likeCount}</span>
-          </div>
+          <span class="username" style={font40}>{posterid} - </span>
+          <span class="text" style={font30}>{text} </span>
         </div>
+        <span class="likes" style={this.state.likeStyle} onClick={this.changeLike}>&hearts;</span>
+        <span style={font40}>{likeCount} - </span>
         {renderPicture}
       </div>
     );

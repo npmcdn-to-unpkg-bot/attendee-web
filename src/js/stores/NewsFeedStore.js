@@ -52,7 +52,7 @@ class NewsFeedStore extends EventEmitter {
       text: text,
       media_link: "",
       like_count: 0,
-      timestamp: Date.Now()
+      timestamp: Date.now(),
 
     }
 
@@ -82,7 +82,7 @@ class NewsFeedStore extends EventEmitter {
     switch(action.type) {
       case "NEWSFEED_POST": {
         // TODO: Readd this back in
-        // this.emit("updated");
+        this.emit("updated");
         break;
       }
       case "NEWSFEED_GET": {
