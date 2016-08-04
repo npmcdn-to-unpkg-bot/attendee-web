@@ -26,7 +26,6 @@ ReactDOM.render(
       <Route path='people/:id' component={Profile} />
       <Route path="events" component={Events}></Route>
       <Route path="profile" component={Profile}></Route>
-      <Route path="calendar" component={Calendar}></Route>
       <Route path="info" apiBaseURL="https://dev.calligre.com/api" component={Info}></Route>
     </Route>
   </Router>,
