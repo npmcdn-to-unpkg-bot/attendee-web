@@ -44,15 +44,19 @@ class NewsFeedStore extends EventEmitter {
 
 
   createPost(text, fbIntegration, twIntegration) {
-    const id = Date.now();
 
     // POST TO FB / TWITTER
+    // TODO clean up offline update
     let data = {
-      posterid: 1,
+      posterid: 2,
       text: text,
       media_link: "",
+      like_count: 0,
+      timestamp: Date.Now()
+
     }
 
+    // TODO: Client side update over server call
     this.posts.unshift(data);
 
     $.ajax({
@@ -77,7 +81,8 @@ class NewsFeedStore extends EventEmitter {
   handleActions(action) {
     switch(action.type) {
       case "NEWSFEED_POST": {
-        this.emit("updated");
+        // TODO: Readd this back in
+        // this.emit("updated");
         break;
       }
       case "NEWSFEED_GET": {

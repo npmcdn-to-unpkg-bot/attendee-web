@@ -68,6 +68,7 @@ export default class NewsFeed extends React.Component {
     const { posts } = this.state;
 
     const NewsFeedPosts = posts.map((post) => {
+        console.log(post)
         return <NewsFeedPost key={post.timestamp} {...post}/>;
     });
 
