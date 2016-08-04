@@ -29,6 +29,9 @@ export default class Event extends React.Component {
               <div class="name">{name}</div>
               <div class="location">{location}</div>
             </div>
+            <div class="subscribed">
+              <i class="fa fa-heart" aria-hidden="true"></i>
+            </div>
         </div>                
       </IndexLink>
     );

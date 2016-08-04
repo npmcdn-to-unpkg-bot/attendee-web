@@ -11,14 +11,14 @@ import Select from 'react-select';
 
 
 export default class Events extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.getEvents = this.getEvents.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
     this.filterUpdated = this.filterUpdated.bind(this);
 
 
-		this.state = { events: [], searchTerm: '', filterTerms: '' };
+		this.state = { events: [], searchTerm: '', filterTerms: this.props.location.query};
 		EventStore.getAll()
 	}
 
@@ -55,10 +55,16 @@ export default class Events extends React.Component {
   }
 
   render() {
-    const { events } = this.state;
+    const { events, searchTerm, filterTerms } = this.state;
 
-    let KEYS = ['name'];
-    const filteredEvents = events.filter(createFilter(this.state.searchTerm, KEYS));
+
+    var self = this;
+    var filteredEvents = events.filter(createFilter(searchTerm, ['name']));
+    filteredEvents = filteredEvents.filter((event) => {
+      if(typeof filterTerms['stream'] != 'undefined' && event['stream'] != filterTerms['stream']) return false;
+
+      return true;
+    });
 
 
     const sortedEvents = filteredEvents.sort((a, b) => {
@@ -71,7 +77,7 @@ export default class Events extends React.Component {
       return a.time.start < b.time.start ? -1 : 1;
     });
 
-    const EventComponents = filteredEvents.map((event) => {
+    const EventComponents = sortedEvents.map((event) => {
         return <Event key={event.id} {...event}/>;
     });
 
