@@ -20,7 +20,7 @@ const app = document.getElementById('app');
 ReactDOM.render(
   <Router history={hashHistory}>
     <Route path="/" component={Layout}>
-      <IndexRoute component={Home}></IndexRoute>
+      <IndexRoute apiBaseURL="https://dev.calligre.com/api" component={Home}></IndexRoute>
       <Route path="newsfeed" component={NewsFeed}></Route>
       <Route path="people" component={People}></Route>
       <Route path='people/:id' component={Profile} />
