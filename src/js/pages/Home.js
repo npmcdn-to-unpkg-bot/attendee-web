@@ -1,53 +1,61 @@
 import React from "react";
+var $ = require('jquery');
+var _ = require('lodash');
 
 import BroadcastMessage from "../components/BroadcastMessage";
-import * as BroadcastActions from "../actions/BroadcastActions";
-import BroadcastStore from "../stores/BroadcastStore";
 
 import Events from "../components/Events"
-import * as EventActions from "../actions/EventActions.js";
 import EventStore from "../stores/EventStore";
 
 export default class Featured extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
-    this.getHome = this.getHome.bind(this);
     this.state = {
-      messages: BroadcastStore.getBroadcasts(),
-      events: EventStore.getEvents(),
+      messages: [],
+      events: [],
+      apiBaseURL: props.route.apiBaseURL,
     };
   }
 
-  componentWillMount() {
-    BroadcastStore.on("change", this.getHome);
-    EventStore.on("change", this.getHome);
+  componentDidMount() {
+    this.broadcastRequest = $.get(this.state.apiBaseURL + "/broadcast", function (result) {
+      this.setState({
+        messages: result.data,
+      });
+    }.bind(this));
+
+    var event_ids = [];
+    var evnts = [];
+    var self = this;
+    this.eventRequest = $.get(this.state.apiBaseURL + "/user/1/subscription", function (result) {
+      for (var i in result.data) {
+        event_ids.push({'id': result.data[i].attributes.event_id});
+      }
+
+      this.eventsRequest = $.get(this.state.apiBaseURL + "/event", function (result) {
+        evnts = _.intersectionBy(result.data, event_ids, 'id');
+        self.setState({
+          events: evnts,
+        });
+      });
+
+    }.bind(this));
   }
 
   componentWillUnmount() {
-    BroadcastStore.removeListener("change", this.getHome);
-    EventStore.removeListener("change", this.getHome);
-  }
-
-  getHome() {
-    this.setState({
-      messages: BroadcastStore.getBroadcasts(),
-      events: EventStore.getEvents(),
-    });
-  }
-
-  reloadHome() {
-    BroadcastActions.refreshBroadcast();
+    this.broadcastRequest.abort();
+    this.eventRequest.abort();
   }
 
   render() {
-    const { messages, events } = this.state;
+    const { messages, events, apiBaseURL } = this.state;
 
     const MessageComponents = messages.map((messages) => {
-      return <BroadcastMessage key={messages.id} text={messages.message} {...messages}/>;
+      return <BroadcastMessage key={messages.id} text={messages.attributes.message} {...messages}/>;
     });
 
     const EventComponents = events.map((events) => {
-      return <Events key={events.name} name={events.name} description={events.description} starttime={events.starttime} endtime={events.endtime} location={events.location} {...events}/>;
+      return <Events key={events.id} name={events.attributes.name} description={events.attributes.description} starttime={events.attributes.starttime} endtime={events.attributes.endtime} location={events.attributes.location} {...events}/>;
     });
 
     return (
@@ -55,6 +63,9 @@ export default class Featured extends React.Component {
         <div>
           <span>{MessageComponents}</span>
         </div>
+
+        <br/>
+
         <div>
           <span>{EventComponents}</span>
         </div>

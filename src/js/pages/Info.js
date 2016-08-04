@@ -48,9 +48,9 @@ export default class Info extends React.Component {
         <img src={logo} />
         <h1>You're at: {confName}</h1>
         <h2> The location is: {location}</h2>
-        <h2> It begins: {moment.unix(starttime).toString()}</h2>
-        <h2> It ends: {moment.unix(endtime).toString()}</h2>
-        <h3> The rest of it is: {other}</h3>
+        <h2> It begins: {moment.unix(starttime).format("ddd MMMM Do YYYY hh:mm")}</h2>
+        <h2> and ends: {moment.unix(endtime).format("ddd MMMM Do YYYY hh:mm")}</h2>
+        <h3> Additional Information: {other}</h3>
         <a href={twitter}> <img src="https://abs.twimg.com/favicons/favicon.ico" /></a>
         <a href={facebook}> <img src="https://www.facebook.com/rsrc.php/yl/r/H3nktOa7ZMg.ico" /></a>
       </div>
