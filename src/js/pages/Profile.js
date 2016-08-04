@@ -111,7 +111,6 @@ export default class Profile extends React.Component {
           <div className="editIcon">{editIcon}</div>
         </div>
         <div className="socialMediaContainer profileItem">
-          <SocialLogins fireRef={this.fireRef}/>
         </div>
         <div className="editableContainer profileItem">
           <p contentEditable={myProfile} className="description editable">{description}</p>
