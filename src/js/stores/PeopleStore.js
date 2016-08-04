@@ -13,7 +13,7 @@ class PeopleStore extends EventEmitter {
 
   getAll() {
     $.ajax({
-      url: " https://sehackday.calligre.com/api/user",
+      url: "https://sehackday.calligre.com/api/user",
       dataType: "json",
       cache: false,
       success: function(response){
@@ -21,6 +21,45 @@ class PeopleStore extends EventEmitter {
       },
       failure: function(error){
         dispatcher.dispatch({type: "PEOPLE_ERROR", error: error});
+      }
+    });
+    return this.people;
+  }
+
+  updatePhoto(id, photo) {
+    $.ajax({
+      url: "https://sehackday.calligre.com/api/user/" + id + "/photo",
+      dataType: "json",
+      type: 'put',
+      data: photo,
+      cache: false,
+      success: function(response){
+        this.updatePerson({id: id, photo: response.data});
+        //dispatcher.dispatch({type: "PEOPLE_GET", people: response});
+      },
+      failure: function(error){
+        console.log(error);
+        //dispatcher.dispatch({type: "PEOPLE_ERROR", error: error});
+      }
+    });
+    return this.people;
+  }
+
+  updatePerson(person) {
+    $.ajax({
+      url: "https://sehackday.calligre.com/api/user/" + person.id,
+      data : JSON.stringify(person),
+      type : 'PATCH',
+      contentType : 'application/json',
+      processData: false,
+      dataType: 'json',
+      success: function(response){
+        console.log(response);
+        //dispatcher.dispatch({type: "PEOPLE_GET", people: response});
+      },
+      failure: function(error){
+        console.log(error);
+        //dispatcher.dispatch({type: "PEOPLE_ERROR", error: error});
       }
     });
     return this.people;

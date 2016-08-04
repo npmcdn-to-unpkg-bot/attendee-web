@@ -8,7 +8,7 @@ import Edit from 'react-icons/lib/md/mode-edit';
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { profile: {id: 0}, preview: '', uploadInProgress: false };
+    this.state = { profile: {id: 0}, preview: '', uploadInProgress: false, newPhoto: null };
     this.getProfile = this.getProfile.bind(this);
     this.submitChanges = this.submitChanges.bind(this);
     this.onDrop = this.onDrop.bind(this);
@@ -55,6 +55,7 @@ export default class Profile extends React.Component {
   onDrop(files) {
     this.setState({
       preview: files[0].preview,
+      newPhoto: files[0],
       uploadInProgress: true
     })
   }
@@ -63,30 +64,21 @@ export default class Profile extends React.Component {
     e.stopPropagation();
     this.setState({
       preview: this.state.profile.photo,
+      newPhoto: null,
       uploadInProgress: false
     });
   }
 
   submitChanges() {
-    // TODO: verify this is our profile
-
-    // TODO: ajax call to update profile
-    var profile = this.state.profile;
     var form = $('.profile');
-    profile['description'] = form.find('.description').text();
-    profile['organization'] = form.find('.organization').text();
+    var profile = {
+      id: this.state.profile.id,
+      description: form.find('.description').text(),
+      organization: form.find('.organization').text(),
+    };
 
-    // TODO: ajax call to set photo
-    /*var req = request.post('/upload');
-    files.forEach((file)=> {
-        req.attach(file.name, file);
-    });
-    req.end(callback);*/
-
-    // onSuccess:
-    this.setState({
-      profile: profile
-    });
+    PeopleStore.updatePhoto(profile.id, btoa(this.state.newPhoto));
+    PeopleStore.updatePerson(profile);
   }
 
   render() {
@@ -118,7 +110,9 @@ export default class Profile extends React.Component {
           <h3 contentEditable={myProfile} className="organization editable">{organization}</h3>
           <div className="editIcon">{editIcon}</div>
         </div>
-        <div className="socialMediaContainer profileItem"></div>
+        <div className="socialMediaContainer profileItem">
+          <SocialLogins fireRef={this.fireRef}/>
+        </div>
         <div className="editableContainer profileItem">
           <p contentEditable={myProfile} className="description editable">{description}</p>
           <div className="editIcon">{editIcon}</div>
