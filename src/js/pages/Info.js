@@ -43,15 +43,17 @@ export default class Info extends React.Component {
   render() {
     const {logo, confName, location, starttime, endtime, other, twitter, facebook} = this.state;
     return (
-      <div>
-        <img src={logo} />
-        <h1>You're at: {confName}</h1>
-        <h2> The location is: {location}</h2>
-        <h2> It begins: {moment.unix(starttime).format("ddd MMMM Do YYYY hh:mm")}</h2>
-        <h2> and ends: {moment.unix(endtime).format("ddd MMMM Do YYYY hh:mm")}</h2>
-        <h3> Additional Information: {other}</h3>
-        <a href={twitter}> <img src="https://abs.twimg.com/favicons/favicon.ico" /></a>
-        <a href={facebook}> <img src="https://www.facebook.com/rsrc.php/yl/r/H3nktOa7ZMg.ico" /></a>
+      <div id="conference-info">
+        <img class="logo" src={logo} />
+        <h3 class="other">{other}</h3>
+        <div class="info-container">
+          <h1>You're at: {confName}</h1>
+          <h2> The location is: {location}</h2>
+          <h2> It begins: {moment.unix(starttime).format("ddd MMMM Do YYYY hh:mm")}</h2>
+          <h2> and ends: {moment.unix(endtime).format("ddd MMMM Do YYYY hh:mm")}</h2>
+          <a href={twitter}> <img src="https://abs.twimg.com/favicons/favicon.ico" /></a>
+          <a href={facebook}> <img src="https://www.facebook.com/rsrc.php/yl/r/H3nktOa7ZMg.ico" /></a>
+        </div>
       </div>
     );
   }
