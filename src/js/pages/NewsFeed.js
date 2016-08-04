@@ -10,8 +10,7 @@ export default class NewsFeed extends React.Component {
 	constructor() {
     super();
     this.getNewsFeedPosts = this.getNewsFeedPosts.bind(this);
-    this.feed = NewsFeedStore.getAll();
-    this.state = { posts: this.feed };
+    this.state = { posts: NewsFeedStore.getAll() };
   }
 
   componentWillMount() {
@@ -40,17 +39,27 @@ export default class NewsFeed extends React.Component {
     const { posts } = this.state;
 
     const NewsFeedPosts = posts.map((post) => {
-        return <NewsFeedPost key={post.id} {...post}/>;
+        return <NewsFeedPost key={post.timestamp} {...post}/>;
     });
 
     return (
       <div>
-        <div>
-          <h1>News Feed</h1>
+        <div class="user-post">
+          <div>
+            <form>
+              <textarea class="user-post-text" maxLength="140" rows="4"
+                cols="80" type="text" defaultValue=" #SoftwareDemoDay" />
+              <div>
+                <span class="fb-check"><input type="checkbox" name="facebook" value="facebook"/>Facebook</span>
+                <span class="tw-check"><input type="checkbox" name="twitter" value="twitter"/>Twitter</span>
+              </div>
+            </form>
+          </div>
+          <div>
+            <button class="btn btn-primary">Make a post</button>
+          </div>
         </div>
         <div>
-          <button className="btn btn-primary">Make a post</button>
-          <h1>THIS IS A THING</h1>
           <div className="news-feed-posts">
             {NewsFeedPosts}
           </div>

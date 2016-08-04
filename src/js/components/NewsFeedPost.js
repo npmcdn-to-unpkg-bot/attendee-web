@@ -1,13 +1,34 @@
 import React from "react";
+
 import { browserHistory } from "history";
+import NewsFeedStore from "../stores/NewsFeedStore";
 
 
 export default class NewsFeedPost extends React.Component {
 
-  constructor(props) {
+  constructor() {
     super();
     this.togglePictureDisplay = this.togglePictureDisplay.bind(this);
-    this.state = { showPicture: false };
+    this.changeLike = this.changeLike.bind(this);
+    this.state = {
+      showPicture: false,
+      liked: 0,
+      likeStyle: {color: 'black'},
+    };
+  }
+
+  componentWillMount() {
+    NewsFeedStore.on("received", this.showError); // TODO
+    NewsFeedStore.on("error", this.showError);
+  }
+
+  componentWillUnmount() {
+    NewsFeedStore.removeListener("received", this.getNewsFeedPosts);
+    NewsFeedStore.removeListener("error", this.showError);
+  }
+
+  showError(){
+    console.log(EventStore.error);
   }
 
   togglePictureDisplay() {
@@ -16,14 +37,35 @@ export default class NewsFeedPost extends React.Component {
     });
   }
 
+  changeLike() {
+    // TODO: How are we doing this on the backend?
+    if (this.state.liked) {
+      // When this works, remove liked attribute
+      NewsFeedStore.decrementLike();
+      this.setState({
+        liked: 0,
+        likeStyle: {color: 'black'},
+      });
+    } else {
+      NewsFeedStore.incrementLike();
+      this.setState({
+        liked: 1,
+        likeStyle: {color: 'red'},
+      })
+    }
+
+  }
+
   render() {
+
     const { id, posterid, text, like_count, media_link, timestamp } = this.props;
 
+    let likeCount = like_count + this.state.liked;
+
     let renderPicture;
-    console.log(this.props.media_link);
     if (this.props.media_link == undefined) {
       renderPicture = (
-        <div>FAIL</div>
+        <div>NO MEDIA LINK</div>
       );
     } else if (!this.state.showPicture) {
       renderPicture = (
@@ -37,11 +79,15 @@ export default class NewsFeedPost extends React.Component {
       );
     }
 
-
     return (
       <div class="newsfeed-post">
         <div class="test-post">
-          HERE is a test post
+          <div class="username">{posterid}</div>
+          <span class="text">{text} </span>
+          <div>
+            <span class="likes" style={this.state.likeStyle} onClick={this.changeLike}>&hearts;</span>
+            <span>{likeCount}</span>
+          </div>
         </div>
         {renderPicture}
       </div>
