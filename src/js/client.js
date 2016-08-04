@@ -9,13 +9,13 @@ import Home from "./pages/Home";
 import NewsFeed from "./pages/NewsFeed";
 import People from "./pages/People";
 import Events from "./pages/Events";
+import EventPage from "./pages/Event";
 import Profile from "./pages/Profile";
 import Info from "./pages/Info";
 
-import style from '../sass/teststyle.scss';
-
-
 const app = document.getElementById('app');
+
+
 
 ReactDOM.render(
   <Router history={hashHistory}>
@@ -25,6 +25,7 @@ ReactDOM.render(
       <Route path="people" component={People}></Route>
       <Route path='people/:id' component={Profile} />
       <Route path="events" component={Events}></Route>
+      <Route path="events/:eventId" component={EventPage}></Route>
       <Route path="profile" component={Profile}></Route>
       <Route path="info" apiBaseURL="https://dev.calligre.com/api" component={Info}></Route>
     </Route>
