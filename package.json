@@ -29,7 +29,7 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --content-base src --inline --hot",
-    "prod": "webpack-dev-server --content-base src --compress --https --host 0.0.0.0 --port 8081"
+    "prod": "webpack-dev-server --content-base src --compress --host 0.0.0.0 --port 8081"
   },
   "author": "",
   "license": "ISC"
