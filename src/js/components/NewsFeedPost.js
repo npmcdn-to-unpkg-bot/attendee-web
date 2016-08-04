@@ -3,34 +3,36 @@ import { browserHistory } from "history";
 
 
 export default class NewsFeedPost extends React.Component {
+
   constructor(props) {
     super();
-    this.showPicture = false;
+    this.togglePictureDisplay = this.togglePictureDisplay.bind(this);
+    this.state = { showPicture: false };
   }
 
   togglePictureDisplay() {
-    this.showPicture = !this.showPicture;
+    this.setState({
+      showPicture: !this.state.showPicture
+    });
   }
-
-
 
   render() {
     const { id, posterid, text, like_count, media_link, timestamp } = this.props;
 
     let renderPicture;
-
-    if (!this.media_link) {
+    console.log(this.props.media_link);
+    if (this.props.media_link == undefined) {
       renderPicture = (
-        <div></div>
+        <div>FAIL</div>
       );
-    } else if (!this.showPicture) {
+    } else if (!this.state.showPicture) {
       renderPicture = (
-        <div class="picture-text" onclick={togglePictureDisplay}>Show Photo</div>
+        <div class="picture-text" onClick={this.togglePictureDisplay}>Show Photo...</div>
       );
     } else {
       renderPicture = (
-        <div class="picture" onclick={togglePictureDisplay}>
-          <img src={media_link} width="100" height="100"/>
+        <div class="picture" onClick={this.togglePictureDisplay}>
+          <img src={media_link}/>
         </div>
       );
     }

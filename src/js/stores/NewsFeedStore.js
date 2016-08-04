@@ -11,6 +11,7 @@ class NewsFeedStore extends EventEmitter {
       {
         id: 113464613,
         text: "I'm at a conference!!",
+        media_link: "http://www.memegasms.com/media/created/vhyfxm.jpg"
       },
       {
         id: 235684679,

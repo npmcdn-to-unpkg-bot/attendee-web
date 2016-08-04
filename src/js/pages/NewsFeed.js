@@ -11,9 +11,7 @@ export default class NewsFeed extends React.Component {
     super();
     this.getNewsFeedPosts = this.getNewsFeedPosts.bind(this);
     this.feed = NewsFeedStore.getAll();
-    this.state = { posts: this.feed};
-
-
+    this.state = { posts: this.feed };
   }
 
   componentWillMount() {
