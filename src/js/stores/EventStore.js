@@ -6,6 +6,8 @@ var $ = require("jquery");
 var randomColor = require('randomcolor');
 var streamMap = {};
 var url = "https://dev.calligre.com"
+var currentUser = 1; //TODO: this needs to actually do the thing
+
 
 class EventStore extends EventEmitter {
   constructor() {
@@ -20,7 +22,21 @@ class EventStore extends EventEmitter {
       dataType: "json",
       cache: false,
       success: function(response){
-        dispatcher.dispatch({type: "EVENTS_GET", events: response.data});
+        var events = response.data;
+        $.ajax({
+          url: url + "/api/user/" + currentUser + "/subscription",
+          dataType: "json",
+          cache: false,
+          success: function(response){
+            var subscription = response.data.map((sub) => {
+              return sub.attributes.event_id;
+            });
+            dispatcher.dispatch({type: "EVENTS_GET", events: events, subscriptions: subscription});
+          },
+          failure: function(error){
+            dispatcher.dispatch({type: "EVENTS_ERROR", error: error.error});
+          }
+        });
       },
       failure: function(error){
         dispatcher.dispatch({type: "EVENTS_ERROR", error: error.error});
@@ -38,11 +54,44 @@ class EventStore extends EventEmitter {
         dispatcher.dispatch({type: "EVENT_GET", event: response.data});
       },
       failure: function(error){
-        dispatcher.dispatch({type: "ERROR", error: error.error});
+        dispatcher.dispatch({type: "EVENTS_ERROR", error: error.error});
       }
     });
     return this.events;
   }
+
+  subscribeToEvent(id){
+    $.ajax({
+      url: url + "/api/user/" + currentUser + "/subscription",
+      type: "POST",
+      data: JSON.stringify({"event_id": id}),
+      contentType: "application/json",
+      dataType: 'json',
+      cache: false,
+      success: function(response){
+        dispatcher.dispatch({type: "EVENT_SUBSCRIBE", event: id, isSubscribed: true});
+      },
+      failure: function(error){
+        dispatcher.dispatch({type: "EVENTS_ERROR", error: error.error});
+      }
+    });
+  }
+
+  unsubscribeToEvent(id){
+    $.ajax({
+      url: url + "/api/user/" + currentUser + "/subscription/" + id,
+      type: "DELETE",
+      dataType: "json",
+      cache: false,
+      success: function(response){
+        dispatcher.dispatch({type: "EVENT_UNSUBSCRIBE", event: id, isSubscribed: false});
+      },
+      failure: function(error){
+        dispatcher.dispatch({type: "EVENTS_ERROR", error: error.error});
+      }
+    });
+  }
+
 
   handleActions(action) {
     switch(action.type) {
@@ -52,10 +101,10 @@ class EventStore extends EventEmitter {
             streamMap[event.attributes.stream] = randomColor();
           }
         });
-
         this.events = action.events.map((event) => {
           var attributes = event.attributes;
           attributes["streamColor"] = streamMap[attributes.stream];
+          attributes["isSubscribed"] = action.subscriptions.includes(attributes.id);
           return attributes;
         })
 
@@ -69,6 +118,19 @@ class EventStore extends EventEmitter {
           }
         });
         this.emit("received");
+        break;
+      }
+      case "EVENT_SUBSCRIBE":
+      case "EVENT_UNSUBSCRIBE": {
+        this.events.forEach((event) => {
+          if(event.id == action.event) {
+            event.isSubscribed = action.isSubscribed;
+          }
+        });
+        this.emit("subscription");
+        break;
+      }
+      case "EVENT_UNSUBSCRIBE": {
         break;
       }
       case "ERROR": {

@@ -1,12 +1,22 @@
 import React from "react";
 
 import { IndexLink } from "react-router";
+import EventStore from "../stores/EventStore";
 
 var moment = require('moment');
 
 export default class Event extends React.Component {
   constructor(props) {
     super(props);
+    this.toggleSubscribed = this.toggleSubscribed.bind(this);
+  }
+
+  toggleSubscribed() {
+    if(this.props.isSubscribed){
+      EventStore.unsubscribeToEvent(this.props.id);
+    } else {
+      EventStore.subscribeToEvent(this.props.id);
+    }
   }
 
   render() {
@@ -30,8 +40,7 @@ export default class Event extends React.Component {
               <div class="name">{name}</div>
               <div class="location">{location}</div>
             </div>
-            <div class="subscribed">
-              <i class="fa fa-heart" aria-hidden="true"></i>
+            <div class="isSubscribed" onClick={this.toggleSubscribed}> {isSubscribed + ""}
             </div>
         </div>                
       </IndexLink>
