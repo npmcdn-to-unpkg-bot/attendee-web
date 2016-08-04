@@ -3,9 +3,7 @@ var $ = require('jquery');
 var _ = require('lodash');
 
 import BroadcastMessage from "../components/BroadcastMessage";
-
 import Events from "../components/Events"
-import EventStore from "../stores/EventStore";
 
 export default class Featured extends React.Component {
   constructor(props) {
