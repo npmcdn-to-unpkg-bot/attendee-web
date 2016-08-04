@@ -46,15 +46,31 @@ class NewsFeedStore extends EventEmitter {
   createPost(text, fbIntegration, twIntegration) {
     const id = Date.now();
 
-    this.posts.unshift({
-      id: 1234567,
-      timestamp: id,
+    // POST TO FB / TWITTER
+    let data = {
+      posterid: 1,
       text: text,
-      like_count: 0,
       media_link: "",
+    }
+
+    this.posts.unshift(data);
+
+    $.ajax({
+      type: "POST",
+      url: "https://dev.calligre.com/api/content",
+      data: JSON.stringify(data),
+      dataType: "json",
+      contentType:"application/json",
+      cache: false,
+      success: function(response) {
+        dispatcher.dispatch({type: "NEWSFEED_POST", post: response["id"]});
+      },
+      failure: function(error){
+        dispatcher.dispatch({type: "NEWSFEED_ERROR", error: error});
+      }
+
     });
 
-    this.emit("updated");
   }
 
 
