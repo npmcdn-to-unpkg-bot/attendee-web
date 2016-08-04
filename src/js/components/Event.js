@@ -23,26 +23,24 @@ export default class Event extends React.Component {
     const { id, name, description, stream, streamColor, isSubscribed, location, starttime, endtime } = this.props;
 
     var streamStyle = {
-      backgroundColor: streamColor
+      borderColor: streamColor
     };
 
     var dateFormat = "MM-DD h:mm a";
 
     return (
       <IndexLink to={{ pathname: 'events/' + this.props.id }}>
-        <div id={"event-" + id} class="event-item">
-            <div class="stream" style={streamStyle}></div>
-            <div class="dates">
-              <div class="date">{moment.unix(starttime).format(dateFormat)}</div>
-              <div class="date">{moment.unix(endtime).format(dateFormat)}</div>
-            </div>
-            <div class="info">
-              <div class="name">{name}</div>
-              <div class="location">{location}</div>
-            </div>
-            <div class="isSubscribed" onClick={this.toggleSubscribed}> {isSubscribed + ""}
-            </div>
-        </div>                
+        <div id={"event-" + id} className="event">
+          <div className="time" style={streamStyle}>
+            <p className="start">{moment.unix(starttime).format("hh:mma")}</p>
+            <p className="end">{moment.unix(endtime).format("hh:mma")}</p>
+          </div>
+          <div className="details">
+            <h4 className="title">{name}</h4>
+            <p className="location">{location}</p>
+          </div>
+          <div class="isSubscribed" onClick={this.toggleSubscribed}> {isSubscribed + ""}</div>
+        </div>
       </IndexLink>
     );
   }

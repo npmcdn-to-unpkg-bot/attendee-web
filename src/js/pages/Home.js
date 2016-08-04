@@ -3,7 +3,7 @@ var $ = require('jquery');
 var _ = require('lodash');
 
 import BroadcastMessage from "../components/BroadcastMessage";
-import Events from "../components/Events"
+import Events from "../components/Events";
 
 import { NotificationStack } from 'react-notification';
 import { OrderedSet } from 'immutable';
@@ -85,7 +85,7 @@ export default class Featured extends React.Component {
     const { messages, events, apiBaseURL } = this.state;
 
     const EventComponents = events.map((events) => {
-      return <Events key={events.id} name={events.attributes.name} description={events.attributes.description} starttime={events.attributes.starttime} endtime={events.attributes.endtime} location={events.attributes.location} {...events}/>;
+      return <Events key={events.id} name={events.attributes.name} description={events.attributes.description} starttime={events.attributes.starttime} endtime={events.attributes.endtime} location={events.attributes.location} streamColor={events.attributes.streamColor} {...events}/>;
     });
 
     return (

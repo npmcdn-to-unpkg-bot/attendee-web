@@ -11,11 +11,15 @@ export default class Events extends React.Component {
   }
 
   render() {
-    const { name, description, starttime, endtime, location } = this.props;
+    const { name, description, starttime, endtime, location, streamColor } = this.props;
+    
+    var streamStyle = {
+      borderColor: streamColor
+    };
 
     return (
       <div className="event">
-        <div className="time">
+        <div className="time" style={streamStyle}>
           <p className="start">{moment.unix(starttime).format("hh:mma")}</p>
           <p className="end">{moment.unix(endtime).format("hh:mma")}</p>
         </div>
