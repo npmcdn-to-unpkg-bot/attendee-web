@@ -33,9 +33,9 @@ class PeopleStore extends EventEmitter {
     fileReader.onloadend = function (e) {
       $.ajax({
         url: "https://dev.calligre.com/api/user/" + id + "/photo",
-        dataType: "json",
+        contentType : 'application/json',
         type: 'put',
-        data: this.result,
+        data: JSON.stringify({data: this.result}),
         processData: false,
         cache: false,
         success: function(response){

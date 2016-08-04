@@ -47,6 +47,20 @@ export default class Profile extends React.Component {
       profile: profiles[0],
       preview: photo,
     });
+
+    $(".editableContainer").each(function(){
+      var container = $(this);
+      container.keyup(function(e) {
+        var field = $(this);
+        if (field.text().length == 0) {
+          field.css('border-color', 'red');
+          $('.submitChanges').prop('disabled', true);
+        } else {
+          field.css('border-color', 'black');
+          $('.submitChanges').prop('disabled', false);
+        }
+      });
+    });
   }
 
   showError(){

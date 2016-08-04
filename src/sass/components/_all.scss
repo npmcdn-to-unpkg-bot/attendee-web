@@ -108,4 +108,9 @@ button {
     background-color: $darkBlue;
     color: white;
   }
+
+  &:disabled {
+    background-color: $grey;
+    color: black;
+  }
 }
