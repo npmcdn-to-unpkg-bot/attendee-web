@@ -1,5 +1,4 @@
 import React from "react";
-import $ from 'jquery';
 import {IndexLink} from "react-router";
 import PeopleStore from "../stores/PeopleStore";
 import SearchInput, {createFilter} from 'react-search-input';
@@ -143,14 +142,10 @@ var PeopleList = React.createClass({
       if (person.private) {
         return;
       }
-      var photo = "https://u.o0bc.com/avatars/stock/_no-user-image.gif";
-      if (person.hasOwnProperty('photo')) {
-        photo = person.photo;
-      }
       // TODO: Determine rank
       var rank = 1;
       return (
-        <Person name={person.first_name + ' ' + person.last_name} photo={photo} points={person.points} organization={person.organization} profileID={person.id} rank={rank}/>
+        <Person name={person.first_name + ' ' + person.last_name} photo={person.photo} points={person.points} organization={person.organization} profileID={person.id} rank={rank}/>
       );
     });
     return (

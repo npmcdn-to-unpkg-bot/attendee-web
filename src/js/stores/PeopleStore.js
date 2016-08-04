@@ -39,7 +39,7 @@ class PeopleStore extends EventEmitter {
         processData: false,
         cache: false,
         success: function(response){
-          self.updatePerson({id: id, photo: response.data});
+          self.updatePerson({id: id, photo: response.data.url});
           //dispatcher.dispatch({type: "PEOPLE_GET", people: response});
         },
         failure: function(error){

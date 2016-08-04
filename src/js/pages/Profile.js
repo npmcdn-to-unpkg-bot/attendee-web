@@ -37,15 +37,9 @@ export default class Profile extends React.Component {
       return profile.id == id;
     })
 
-    var photo = profiles[0].photo;
-    
-    if (photo == undefined) {
-      photo = "https://u.o0bc.com/avatars/stock/_no-user-image.gif";
-    }
-
     this.setState({
       profile: profiles[0],
-      preview: photo,
+      preview: profiles[0].photo,
     });
 
     $(".editableContainer").each(function(){
