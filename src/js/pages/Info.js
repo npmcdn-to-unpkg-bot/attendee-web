@@ -23,7 +23,6 @@ export default class Info extends React.Component {
 
   componentDidMount() {
     this.serverRequest = $.get(this.props.route.apiBaseURL + "/info", function (result) {
-      console.log(result)
       this.setState({
         logo: result.logo,
         confName: result.name,

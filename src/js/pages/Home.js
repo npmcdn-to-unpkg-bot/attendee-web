@@ -1,49 +1,63 @@
 import React from "react";
 
-import Home from "../components/Home";
-import * as HomeActions from "../actions/HomeActions";
-import HomeStore from "../stores/HomeStore";
+import BroadcastMessage from "../components/BroadcastMessage";
+import * as BroadcastActions from "../actions/BroadcastActions";
+import BroadcastStore from "../stores/BroadcastStore";
 
+import Events from "../components/Events"
+import * as EventActions from "../actions/EventActions.js";
+import EventStore from "../stores/EventStore";
 
 export default class Featured extends React.Component {
   constructor() {
     super();
     this.getHome = this.getHome.bind(this);
     this.state = {
-      home: HomeStore.getAll(),
+      messages: BroadcastStore.getBroadcasts(),
+      events: EventStore.getEvents(),
     };
   }
 
   componentWillMount() {
-    HomeStore.on("change", this.getHome);
+    BroadcastStore.on("change", this.getHome);
+    EventStore.on("change", this.getHome);
   }
 
   componentWillUnmount() {
-    HomeStore.removeListener("change", this.getHome);
+    BroadcastStore.removeListener("change", this.getHome);
+    EventStore.removeListener("change", this.getHome);
   }
 
   getHome() {
     this.setState({
-      home: HomeStore.getAll(),
+      messages: BroadcastStore.getBroadcasts(),
+      events: EventStore.getEvents(),
     });
   }
 
   reloadHome() {
-    HomeActions.reloadHome();
+    BroadcastActions.refreshBroadcast();
   }
 
   render() {
-    const { home } = this.state;
+    const { messages, events } = this.state;
 
-    const HomeComponents = home.map((home) => {
-        return <Home key={home.id} {...home}/>;
+    const MessageComponents = messages.map((messages) => {
+      return <BroadcastMessage key={messages.id} text={messages.message} {...messages}/>;
+    });
+
+    const EventComponents = events.map((events) => {
+      return <Events key={events.name} name={events.name} description={events.description} starttime={events.starttime} endtime={events.endtime} location={events.location} {...events}/>;
     });
 
     return (
       <div>
-        <button onClick={this.reloadHome.bind(this)}>Reload!</button>
-        <h1>Home</h1>
-        <ul>{HomeComponents}</ul>
+        <div>
+          <span>{MessageComponents}</span>
+        </div>
+        <div>
+          <span>{EventComponents}</span>
+        </div>
       </div>
     );
   }
