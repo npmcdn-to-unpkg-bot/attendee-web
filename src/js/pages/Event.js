@@ -10,6 +10,8 @@ export default class Events extends React.Component {
 	constructor(props) {
 		super(props);
 		this.getEvent = this.getEvent.bind(this);
+    this.toggleSubscribed = this.toggleSubscribed.bind(this);
+
     this.state = { event: undefined };
 
     EventStore.get(this.props.params.eventId);
@@ -36,6 +38,14 @@ export default class Events extends React.Component {
       event: event
     })
 	}
+
+  toggleSubscribed() {
+    if(this.state.event.isSubscribed){
+      EventStore.unsubscribeToEvent(this.state.event.id);
+    } else {
+      EventStore.subscribeToEvent(this.state.event.id);
+    }
+  }
 
   showError(){
     console.log(EventStore.error)
@@ -70,7 +80,7 @@ export default class Events extends React.Component {
               <div class="description">{description}</div>
               <div class="location">{location}</div>
             </div>
-            <div class="isSubscribed"> Are you subscribed: {isSubscribed + ""}
+            <div class="isSubscribed"  onClick={this.toggleSubscribed}> Are you subscribed: {isSubscribed + ""}
             </div>
           </div>                
       </div>
