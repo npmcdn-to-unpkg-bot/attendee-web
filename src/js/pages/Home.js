@@ -1,49 +1,72 @@
 import React from "react";
+var $ = require('jquery');
+var _ = require('lodash');
 
-import Home from "../components/Home";
-import * as HomeActions from "../actions/HomeActions";
-import HomeStore from "../stores/HomeStore";
-
+import BroadcastMessage from "../components/BroadcastMessage";
+import Events from "../components/Events"
 
 export default class Featured extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
-    this.getHome = this.getHome.bind(this);
     this.state = {
-      home: HomeStore.getAll(),
+      messages: [],
+      events: [],
+      apiBaseURL: props.route.apiBaseURL,
     };
   }
 
-  componentWillMount() {
-    HomeStore.on("change", this.getHome);
+  componentDidMount() {
+    this.broadcastRequest = $.get(this.state.apiBaseURL + "/broadcast", function (result) {
+      this.setState({
+        messages: result.data,
+      });
+    }.bind(this));
+
+    var event_ids = [];
+    var evnts = [];
+    var self = this;
+    this.eventRequest = $.get(this.state.apiBaseURL + "/user/1/subscription", function (result) {
+      for (var i in result.data) {
+        event_ids.push({'id': result.data[i].attributes.event_id});
+      }
+
+      this.eventsRequest = $.get(this.state.apiBaseURL + "/event", function (result) {
+        evnts = _.intersectionBy(result.data, event_ids, 'id');
+        self.setState({
+          events: evnts,
+        });
+      });
+
+    }.bind(this));
   }
 
   componentWillUnmount() {
-    HomeStore.removeListener("change", this.getHome);
-  }
-
-  getHome() {
-    this.setState({
-      home: HomeStore.getAll(),
-    });
-  }
-
-  reloadHome() {
-    HomeActions.reloadHome();
+    this.broadcastRequest.abort();
+    this.eventRequest.abort();
   }
 
   render() {
-    const { home } = this.state;
+    const { messages, events, apiBaseURL } = this.state;
 
-    const HomeComponents = home.map((home) => {
-        return <Home key={home.id} {...home}/>;
+    const MessageComponents = messages.map((messages) => {
+      return <BroadcastMessage key={messages.id} text={messages.attributes.message} {...messages}/>;
+    });
+
+    const EventComponents = events.map((events) => {
+      return <Events key={events.id} name={events.attributes.name} description={events.attributes.description} starttime={events.attributes.starttime} endtime={events.attributes.endtime} location={events.attributes.location} {...events}/>;
     });
 
     return (
       <div>
-        <button onClick={this.reloadHome.bind(this)}>Reload!</button>
-        <h1>Home</h1>
-        <ul>{HomeComponents}</ul>
+        <div>
+          <span>{MessageComponents}</span>
+        </div>
+
+        <br/>
+
+        <div>
+          <span>{EventComponents}</span>
+        </div>
       </div>
     );
   }
