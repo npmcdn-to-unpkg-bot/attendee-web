@@ -5,26 +5,62 @@ var _ = require('lodash');
 import BroadcastMessage from "../components/BroadcastMessage";
 import Events from "../components/Events"
 
+import { NotificationStack } from 'react-notification';
+import { OrderedSet } from 'immutable';
+var moment = require('moment');
+
 export default class Featured extends React.Component {
   constructor(props) {
     super();
+    this.addNotification = this.addNotification.bind(this);
+    this.removeNotification = this.removeNotification.bind(this);
     this.state = {
       messages: [],
+      messageStack: OrderedSet(),
       events: [],
       apiBaseURL: props.route.apiBaseURL,
     };
   }
 
+  addNotification (message) {
+    const currTime = moment().unix();
+    if (currTime > message.expirytime) {
+      return;
+    }
+    var self = this;
+    return this.setState({
+      messageStack: this.state.messageStack.add({
+        message: message.message,
+        key: message.id,
+        dismissAfter: (message.expirytime - currTime) * 1000
+      })
+    });
+  }
+
+  removeNotification (count) {
+    this.setState({
+      messageStack: this.state.messageStack.filter(n => n.key !== count)
+    })
+  }
+
+
   componentDidMount() {
+    var self = this;
     this.broadcastRequest = $.get(this.state.apiBaseURL + "/broadcast", function (result) {
       this.setState({
-        messages: result.data,
+        messages: result.data.map(function(message) {
+          return message.attributes;
+        })
+      });
+
+      this.messageStack = new OrderedSet();
+      this.state.messages.forEach(function(m) {
+        self.addNotification(m);
       });
     }.bind(this));
 
     var event_ids = [];
     var evnts = [];
-    var self = this;
     this.eventRequest = $.get(this.state.apiBaseURL + "/user/1/subscription", function (result) {
       for (var i in result.data) {
         event_ids.push({'id': result.data[i].attributes.event_id});
@@ -48,24 +84,22 @@ export default class Featured extends React.Component {
   render() {
     const { messages, events, apiBaseURL } = this.state;
 
-    const MessageComponents = messages.map((messages) => {
-      return <BroadcastMessage key={messages.id} text={messages.attributes.message} {...messages}/>;
-    });
-
     const EventComponents = events.map((events) => {
       return <Events key={events.id} name={events.attributes.name} description={events.attributes.description} starttime={events.attributes.starttime} endtime={events.attributes.endtime} location={events.attributes.location} {...events}/>;
     });
 
     return (
       <div>
-        <div>
-          <span>{MessageComponents}</span>
-        </div>
+        <NotificationStack
+          notifications={this.state.messageStack.toArray()}
+          onDismiss={notification => this.setState({
+            notifications: this.state.messageStack.delete(notification)
+          })}
+        />
 
-        <br/>
-
+        <h2>Your Upcoming Events</h2>
         <div>
-          <span>{EventComponents}</span>
+          {EventComponents}
         </div>
       </div>
     );

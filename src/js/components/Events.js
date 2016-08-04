@@ -14,10 +14,15 @@ export default class Events extends React.Component {
     const { name, description, starttime, endtime, location } = this.props;
 
     return (
-      <div>
-        <p>This event: <span>{name}</span> (<span>{description}</span>)</p>
-        <p>Is happening: <span>{moment.unix(starttime).format("ddd MMMM Do YYYY hh:mm")}</span> to <span>{moment.unix(endtime).format("ddd MMMM Do YYYY hh:mm")}</span></p>
-        <p>at: <span>{location}</span></p>
+      <div className="event">
+        <div className="time">
+          <p className="start">{moment.unix(starttime).format("hh:mma")}</p>
+          <p className="end">{moment.unix(endtime).format("hh:mma")}</p>
+        </div>
+        <div className="details">
+          <h4 className="title">{name}</h4>
+          <p className="location">{location}</p>
+        </div>
       </div>
     );
   }

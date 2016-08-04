@@ -1,0 +1,21 @@
+.event {
+  margin: 10px 0px;
+
+  .time, .details {
+    display: inline-block;
+  }
+
+  .time {
+    padding: 0px 20px;
+    border-right: 5px solid purple;
+    vertical-align: super;
+
+    p {
+      font-weight: bold;
+    }
+  }
+
+  .details {
+    padding-left: 20px;
+  }
+}
