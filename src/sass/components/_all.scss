@@ -1,0 +1,111 @@
+$font-stack: Source Sans Pro, sans-serif;
+$red: #F16A6F;
+$purple: #8E7E8E;
+$darkBlue: #022F5A;
+$blue: #5F9EDF;
+$teal: #62D0DB;
+$grey: #D7D8DA;
+$black: #000;
+$white: #FFF;
+$primary: $red;
+$secondary: $purple;
+$tertiary: $blue;
+$highlight: $teal;
+
+body {
+  font: 100% $font-stack;
+  color: $black;
+}
+
+h1 {
+  color: $primary;
+}
+
+h2 {
+  color: $secondary;
+}
+
+h3 {
+  color: $tertiary;
+}
+
+p {
+  font-size: 12px;
+}
+
+.navbar {
+  background-color: $purple;
+  background-image: none !important;
+  border: none;
+
+  li {
+    font-size: 16px;
+  }
+}
+
+.Select-control {
+  font-size: 12px;
+
+  input {
+    border: none;
+    vertical-align: middle;
+  }
+
+  &.search-input > input {
+    padding-left: 10px;
+    width: 100%;
+    height: 100%;
+
+    &:focus{
+      outline: none;
+    }
+  }
+}
+
+.searchBar {
+  margin: 20px 0px;
+}
+
+.sortContainer {
+  display: table;
+
+  .directionButton {
+    display: block;
+    width: 50px;
+    background: none;
+    border: none;
+    font-size: 24px;
+
+    &:active, &:focus {
+      outline: none;
+    }
+  }
+
+  .sortComponent {
+    display: table-cell;
+    width: 100%;
+    margin: 0px !important;
+  }
+}
+
+.visible {
+  display: inherit;
+}
+
+.hidden {
+  display: none;
+}
+
+button {
+  font-size: 16px;
+  padding: 10px 15px;
+  background-color: $purple;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+
+  &:hover {
+    background-color: $darkBlue;
+    color: white;
+  }
+}

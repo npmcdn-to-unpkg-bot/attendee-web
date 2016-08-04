@@ -1,0 +1,150 @@
+.peopleList {
+  .person {
+    margin-bottom: 20px;
+
+    a {
+      color: black;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+
+    .points-container, img, .info-container {
+      display: inline-block;
+      vertical-align: -webkit-baseline-middle;
+    }
+
+    .points-container {
+      text-align: right;
+      width: 100px;
+
+      .personPoints, .personRank {
+        width: 100%;
+        margin: 0px;
+      }
+
+      .personPoints {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .personRank {
+        font-size: 16px;
+      }
+    }
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+      margin: 0px 20px;
+    }
+
+    .info-container {
+      p {
+        margin: 0px;
+      }
+
+      .personName {
+        font-size: 28px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.profile {
+  text-align: center;
+  max-width: 500px;
+  margin: 0px auto;
+
+  .submitChanges {
+    margin: 0px auto;
+  }
+
+  .dropzone {
+    border: none;
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    position: relative;
+    margin: 0px auto;
+
+    img {
+      width: 200px;
+      height: 200px;
+      border-radius: 100px;
+    }
+
+    .cancel, .label {
+      position: absolute;
+    }
+
+    .cancel {
+      top: 0;
+      right: 0;
+      background: none;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .label {
+      color: black;
+      background-color: rgba(255, 255, 255, 0.5);
+      font-size: 12px;
+      width: 100%;
+      text-align: center;
+      bottom: 0px;
+      margin-bottom: 0px;
+      height: 30px;
+      display: none;
+
+    }
+  }
+
+  .editIcon {
+    display: none;
+  }
+  
+  .profileItem {
+    margin: 30px 0px;
+  }
+
+  .submitChanges {
+    display: none;
+  }
+
+  &.myProfile {
+    .cancel {
+      display: none !important;
+    }
+
+    .dropzone:hover > .label {
+      display: inherit;
+    }
+
+    .submitChanges {
+      display: inherit;
+    }
+
+    .editableContainer {
+      border-bottom: 1px solid black;
+
+      .editable {
+        outline: none;
+        width: 100%;
+      }
+
+      .editIcon {
+        font-size: 16px;
+        display: inherit;
+      }
+
+      .editable, .editIcon {
+        display: table-cell;
+      }
+    }
+  }
+}

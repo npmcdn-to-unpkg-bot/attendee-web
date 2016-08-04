@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router, Route, IndexRoute, hashHistory } from "react-router";
+import { Router, Route, IndexRoute, hashHistory, IndexLink } from "react-router";
+
+require('!style!css!sass!../sass/main.scss');
 
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
@@ -22,10 +24,11 @@ ReactDOM.render(
       <IndexRoute component={Home}></IndexRoute>
       <Route path="newsfeed" component={NewsFeed}></Route>
       <Route path="people" component={People}></Route>
+      <Route path='people/:id' component={Profile} />
       <Route path="events" component={Events}></Route>
       <Route path="profile" component={Profile}></Route>
       <Route path="calendar" component={Calendar}></Route>
-      <Route path="info" apiBaseURL="https://sehackday.calligre.com/api" component={Info}></Route>
+      <Route path="info" apiBaseURL="https://dev.calligre.com/api" component={Info}></Route>
     </Route>
   </Router>,
 app);
