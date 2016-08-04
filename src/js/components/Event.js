@@ -10,8 +10,7 @@ export default class Event extends React.Component {
   }
 
   render() {
-    const { id, name, descriptionm, stream, streamColor, isSubscribed, location, time } = this.props;
-    const { start, end } = time;
+    const { id, name, description, stream, streamColor, isSubscribed, location, starttime, endtime } = this.props;
 
     var streamStyle = {
       backgroundColor: streamColor
@@ -24,8 +23,8 @@ export default class Event extends React.Component {
         <div id={"event-" + id} class="event-item">
             <div class="stream" style={streamStyle}></div>
             <div class="dates">
-              <div class="date">{moment.unix(start).format(dateFormat)}</div>
-              <div class="date">{moment.unix(end).format(dateFormat)}</div>
+              <div class="date">{moment.unix(starttime).format(dateFormat)}</div>
+              <div class="date">{moment.unix(endtime).format(dateFormat)}</div>
             </div>
             <div class="info">
               <div class="name">{name}</div>
