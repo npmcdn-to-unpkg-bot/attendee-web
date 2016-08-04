@@ -5,7 +5,6 @@ import { DateField, TransitionView, Calendar } from 'react-date-picker'
 import Select from 'react-select';
 import Event from "../components/Event";
 import EventStore from "../stores/EventStore";
-import style from '../../sass/events.scss';
 
 require('!style!css!sass!react-date-picker/index.css');
 
