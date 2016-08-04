@@ -34,6 +34,7 @@ export default class Events extends React.Component {
   }
 
 	getEvents() {
+    console.log(EventStore.events);
 		this.setState({
 			events: EventStore.events
     });
@@ -47,7 +48,7 @@ export default class Events extends React.Component {
 
   filterUpdated(key, dateString, data) {
     var filter = this.state.filterTerms;
-    filter[key] = value;
+    filter[key] = data.dateMoment;
     this.setState({
       filterTerms: filter
     });
@@ -65,20 +66,20 @@ export default class Events extends React.Component {
     var filteredEvents = events.filter(createFilter(searchTerm, ['name']));
     filteredEvents = filteredEvents.filter((event) => {
       if(typeof filterTerms['stream'] != 'undefined' && event['stream'] != filterTerms['stream']) return false;
-      if(typeof filterTerms['startDate'] != 'undefined' && event['startDate'] > filterTerms['startDate']) return false;
+      if(typeof filterTerms['startDate'] != 'undefined' && moment.unix(event.starttime).format("MM-DD h:mm a") < filterTerms['startDate']) return false;
 
       return true;
     });
 
 
     const sortedEvents = filteredEvents.sort((a, b) => {
-      if(a.time.start == b.time.start){
-        if(a.time.end == b.time.end) {
+      if(a.starttime == b.starttime){
+        if(a.endtime == b.endtime) {
           return a.name < b.name ? -1 : 1;
         }
-        return a.time.end < b.time.end ? -1 : 1;
+        return a.endtime < b.endtime ? -1 : 1;
       }
-      return a.time.start < b.time.start ? -1 : 1;
+      return a.starttime < b.starttime ? -1 : 1;
     });
 
     const EventComponents = sortedEvents.map((event) => {
