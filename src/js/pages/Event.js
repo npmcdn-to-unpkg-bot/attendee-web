@@ -1,6 +1,7 @@
 import React from "react";
 
 import EventStore from "../stores/EventStore";
+import SubscribeButton from "../components/SubscribeButton";
 import { IndexLink } from "react-router";
 
 
@@ -10,7 +11,6 @@ export default class Events extends React.Component {
 	constructor(props) {
 		super(props);
 		this.getEvent = this.getEvent.bind(this);
-    this.toggleSubscribed = this.toggleSubscribed.bind(this);
 
     this.state = { event: undefined };
 
@@ -39,13 +39,6 @@ export default class Events extends React.Component {
     })
 	}
 
-  toggleSubscribed() {
-    if(this.state.event.isSubscribed){
-      EventStore.unsubscribeToEvent(this.state.event.id);
-    } else {
-      EventStore.subscribeToEvent(this.state.event.id);
-    }
-  }
 
   showError(){
     console.log(EventStore.error)
@@ -61,29 +54,28 @@ export default class Events extends React.Component {
 
 
     var streamStyle = {
-      backgroundColor: streamColor
+      borderColor: streamColor
     };
 
+    /*<IndexLink to={{ pathname: 'events?stream=' + stream }}>
+      <div class="stream" style={streamStyle}></div>
+    </IndexLink>*/
+
     return (
-        <div>
-        <h1>Event {name}</h1>
-          <div id={"event-" + id} class="event-item">
-            <IndexLink to={{ pathname: 'events?stream=' + stream }}>
-              <div class="stream" style={streamStyle}></div>
-            </IndexLink>
+        <div id={"event-" + id} class="event-item">
+          <div className="nameContainer" style={streamStyle}>
             <div class="dates">
               <div class="date">{moment.unix(starttime).format("h:mm a")}</div>
               <div class="date">{moment.unix(endtime).format("h:mm a")}</div>
             </div>
-            <div class="info">
-              <div class="name">{name}</div>
-              <div class="description">{description}</div>
-              <div class="location">{location}</div>
-            </div>
-            <div class="isSubscribed"  onClick={this.toggleSubscribed}> Are you subscribed: {isSubscribed + ""}
-            </div>
+            <h1>{name}</h1>
+            <SubscribeButton className="isSubscribed" id={this.state.event.id} subscribed={isSubscribed}/>
+          </div>
+          <div class="info">
+            <h2 class="location">{location}</h2>
+            <div class="description">{description}</div>
           </div>                
-      </div>
+        </div>                
     );
   }
 }

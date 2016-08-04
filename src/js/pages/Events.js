@@ -98,7 +98,7 @@ export default class Events extends React.Component {
             <Calendar style={{padding: 10}}/>
           </TransitionView>
         </DateField>
-        <div id="events">
+        <div className="eventsContainer">
           {EventComponents}
         </div>
       </div>
