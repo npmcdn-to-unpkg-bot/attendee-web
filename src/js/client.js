@@ -12,8 +12,9 @@ import Profile from "./pages/Profile";
 import Calendar from "./pages/Calendar";
 import Info from "./pages/Info";
 
-
 const app = document.getElementById('app');
+
+
 
 ReactDOM.render(
   <Router history={hashHistory}>

@@ -17,13 +17,15 @@ export default class Event extends React.Component {
       backgroundColor: streamColor
     };
 
+    var dateFormat = "MM-DD h:mm a";
+
     return (
       <IndexLink to={{ pathname: 'events/' + this.props.id }}>
         <div id={"event-" + id} class="event-item">
             <div class="stream" style={streamStyle}></div>
             <div class="dates">
-              <div class="date">{moment.unix(start).format("h:mm a")}</div>
-              <div class="date">{moment.unix(end).format("h:mm a")}</div>
+              <div class="date">{moment.unix(start).format(dateFormat)}</div>
+              <div class="date">{moment.unix(end).format(dateFormat)}</div>
             </div>
             <div class="info">
               <div class="name">{name}</div>
