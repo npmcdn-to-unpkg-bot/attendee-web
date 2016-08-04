@@ -17,11 +17,13 @@ export default class Events extends React.Component {
 
   componentWillMount() {
     EventStore.on("received", this.getEvent);
+    EventStore.on("subscription", this.getEvent);
     EventStore.on("error", this.showError);
   }
 
   componentWillUnmount() {
     EventStore.removeListener("received", this.getEvent);
+    EventStore.removeListener("subscription", this.getEvent);
     EventStore.removeListener("error", this.showError);
   }
 
@@ -68,8 +70,7 @@ export default class Events extends React.Component {
               <div class="description">{description}</div>
               <div class="location">{location}</div>
             </div>
-            <div class="subscribed">
-              <i class="fa fa-heart" aria-hidden="true"></i>
+            <div class="isSubscribed"> Are you subscribed: {isSubscribed + ""}
             </div>
           </div>                
       </div>
