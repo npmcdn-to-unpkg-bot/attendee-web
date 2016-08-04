@@ -86,7 +86,7 @@ export default class Events extends React.Component {
         return <Event key={event.id} {...event}/>;
     });
 
-    var format = "MM-DD HH:mm";
+    var format = "YYYY-MM-DD HH:mm";
     var date = moment().format(format);
 
     return (
