@@ -1,8 +1,6 @@
 import React from "react";
 
-import { browserHistory } from "history";
 import NewsFeedStore from "../stores/NewsFeedStore";
-
 
 export default class NewsFeedPost extends React.Component {
 
@@ -17,18 +15,18 @@ export default class NewsFeedPost extends React.Component {
     };
   }
 
-  componentWillMount() {
-    NewsFeedStore.on("received", this.showError); // TODO
-    NewsFeedStore.on("error", this.showError);
-  }
+  // componentWillMount() {
+  //   NewsFeedStore.on("updated", this.getNewsFeedPosts); // TODO
+  //   NewsFeedStore.on("error", this.showError);
+  // }
 
-  componentWillUnmount() {
-    NewsFeedStore.removeListener("received", this.getNewsFeedPosts);
-    NewsFeedStore.removeListener("error", this.showError);
-  }
+  // componentWillUnmount() {
+  //   NewsFeedStore.removeListener("updated", this.getNewsFeedPosts);
+  //   NewsFeedStore.removeListener("error", this.showError);
+  // }
 
   showError(){
-    console.log(EventStore.error);
+    console.log(NewsFeedStoreStore.error);
   }
 
   togglePictureDisplay() {
@@ -60,6 +58,7 @@ export default class NewsFeedPost extends React.Component {
 
     const { id, posterid, text, like_count, media_link, timestamp } = this.props;
 
+    // TODO: This is a dirty hack job until the API has a solution
     let likeCount = like_count + this.state.liked;
 
     let renderPicture;

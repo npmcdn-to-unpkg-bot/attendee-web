@@ -14,24 +14,6 @@ class NewsFeedStore extends EventEmitter {
   }
 
 
-  // constructor() {
-  //   super()
-
-  //   this.posts = [
-  //     {
-  //       id: 113464613,
-  //       text: "I'm at a conference!!",
-  //       media_link: "http://www.memegasms.com/media/created/vhyfxm.jpg",
-  //       like_count: 1,
-  //     },
-  //     {
-  //       id: 235684679,
-  //       text: "This blows",
-  //     },
-  //   ];
-  // }
-
-
   getAll() {
     $.ajax({
       // url: "https://sehackday.calligre.com/api/content",
@@ -61,28 +43,31 @@ class NewsFeedStore extends EventEmitter {
   }
 
 
-  createPost(text) {
+  createPost(text, fbIntegration, twIntegration) {
     const id = Date.now();
 
-    this.posts.push({
-      id,
-      text,
+    this.posts.unshift({
+      id: 1234567,
+      timestamp: id,
+      text: text,
+      like_count: 0,
+      media_link: "",
     });
 
-    this.emit("change");
+    this.emit("updated");
   }
 
 
   handleActions(action) {
     switch(action.type) {
       case "NEWSFEED_POST": {
-        this.emit("received");
+        this.emit("updated");
         break;
       }
       case "NEWSFEED_GET": {
         this.posts = action.posts;
         // TODO: Append posts, don't simply delete old data
-        this.emit("received");
+        this.emit("updated");
         break;
       }
       case "ERROR": {
