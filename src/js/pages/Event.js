@@ -8,14 +8,14 @@ import { IndexLink } from "react-router";
 var moment = require('moment');
 
 export default class Events extends React.Component {
-	constructor(props) {
-		super(props);
-		this.getEvent = this.getEvent.bind(this);
+  constructor(props) {
+    super(props);
+    this.getEvent = this.getEvent.bind(this);
 
     this.state = { event: undefined };
 
     EventStore.get(this.props.params.eventId);
-	}
+  }
 
   componentWillMount() {
     EventStore.on("received", this.getEvent);
@@ -29,7 +29,7 @@ export default class Events extends React.Component {
     EventStore.removeListener("error", this.showError);
   }
 
-	getEvent() {
+  getEvent() {
     var id = this.props.params.eventId;
     var event = EventStore.events.filter((event) => {
       return event.id == id;
@@ -37,7 +37,7 @@ export default class Events extends React.Component {
     this.setState({
       event: event
     })
-	}
+  }
 
 
   showError(){

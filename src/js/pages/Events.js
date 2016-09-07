@@ -13,15 +13,15 @@ var moment = require('moment');
 
 
 export default class Events extends React.Component {
-	constructor(props) {
-		super(props);
-		this.getEvents = this.getEvents.bind(this);
+  constructor(props) {
+    super(props);
+    this.getEvents = this.getEvents.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
     this.timeUpdated = this.filterUpdated.bind(this, 'startDate');
 
-		this.state = { events: [], searchTerm: '', filterTerms: this.props.location.query};
-		EventStore.getAll()
-	}
+    this.state = { events: [], searchTerm: '', filterTerms: this.props.location.query};
+    EventStore.getAll()
+  }
 
   componentWillMount() {
     EventStore.on("received", this.getEvents);
@@ -33,12 +33,12 @@ export default class Events extends React.Component {
     EventStore.removeListener("error", this.showError);
   }
 
-	getEvents() {
+  getEvents() {
     console.log(EventStore.events);
-		this.setState({
-			events: EventStore.events
+    this.setState({
+      events: EventStore.events
     });
-	}
+  }
 
   searchUpdated (term) {
     this.setState({

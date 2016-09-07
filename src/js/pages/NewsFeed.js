@@ -7,7 +7,7 @@ import NewsFeedStore from "../stores/NewsFeedStore";
 
 export default class NewsFeed extends React.Component {
 
-	constructor() {
+  constructor() {
     super();
     this.getNewsFeedPosts = this.getNewsFeedPosts.bind(this);
     this.createPost = this.createPost.bind(this);
